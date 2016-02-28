@@ -1,0 +1,86 @@
+<!-- Using DataMaps.github.io -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <style>
+        .datamaps-legend dt, .datamaps-legend dd {
+           float: none;
+        }
+        .datamaps-legend {
+            right: 150px;
+            top: 710px;
+        }
+
+        #container1 {
+          position: relative;
+          top: -130px;
+          left: 120px;
+        }
+
+       .custom-loc {
+            position: relative;
+            left: 120px;
+         }
+      </style>
+    </head>
+    <body>
+           <center><div class="custom-loc">
+              <h1>USA Personality Distribution</h1>
+              <h4>Hover on map for state-wise information</h4>
+            </div> </center>
+            <div id="container1" style="height: 450px; width: 960px"></div> 
+            <!-- D3.js -->
+            <script src="//d3js.org/d3.v3.min.js"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+            <!-- Map Generating Function -->
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+            <script src="http://d3js.org/topojson.v1.min.js"></script>
+            <script src="http://datamaps.github.io/scripts/datamaps.usa.min.js"></script>
+            <script>
+                  var map = new Datamap({
+                      scope: 'usa',
+                      element: document.getElementById('container1'),
+                      responsive: true,
+                      geographyConfig: {
+                          popupTemplate: function(geo, data) {
+                          return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+"</div>";
+                        },
+                        highlightFillColor: '#FF6600',
+                        highlightOnHover: true,
+                        borderColor: '#444',
+                        borderWidth: 1.1
+                      },
+                      dataUrl: 'data_1.json',
+                      dataType: 'json',
+                      data: {},
+                      fills: {
+                        'REP': '#000f1e',   //republic - maize
+                        'DEM': '#667d93',   //democratic - Blue
+                        'HEAVY_DEM': '#00274c',
+                        'LIGHT_DEM': '#99a8b7',
+                        'HEAVY_REP': '#193c5d',
+                        'LIGHT_REP': '#32526f',
+                        defaultFill: 'grey'
+                      }
+                    }); //end of Datamap variable
+                      
+                  //draw a legend for this map
+                 map.legend({
+                  legendTitle : "Electoral Votes Across usa",
+                  defaultFillName: "No data",
+                  labels: {
+                    'REP': "Republican",   //republic - maize
+                    'DEM': "Democratic",   //democratic - Blue
+                    'HEAVY_DEM': "High Democratics",
+                    'LIGHT_DEM': "Low Democratics",
+                    'HEAVY_REP': "High Republicans",
+                    'LIGHT_REP': "Low Republicans"
+                  },
+                });
+            </script>
+        
+    </body>
+</html>

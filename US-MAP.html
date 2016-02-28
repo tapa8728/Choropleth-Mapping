@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Personality US MAP</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 50px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    #legend {
+    padding: 1.5em 0 0 1.5em;
+}
+
+li.key {
+    border-top-width: 22px;
+    border-top-style: solid;
+    font-size: 1.05em;
+    width: 8%;
+    padding-left: 0;
+    padding-right: 0;
+}
+    /*.datamaps-legend {
+            position: relative;
+            top: 710px;
+        }
+    #container1 {
+          position: relative;
+          left: 150px;
+        }*/
+
+    #conc, #open, #extra, #neuro, #agree {
+        padding: 20px;
+    }
+
+    #open, #extra, #neuro{
+        background-color: #EEEEEE;
+    }
+    
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <!-- Map Generating Function -->
+    <script src="js/d3.v3.min.js"></script>
+    <script src="js/topojson.v1.min.js"></script>
+    <script src="js/datamaps.usa.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">GFG </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#open">Openness</a>
+                    </li>
+                    <li>
+                        <a href="#conc">Conscientiousness</a>
+                    </li>
+                    <li>
+                        <a href="#extra">Extraversion</a>
+                    </li>
+                    <li>
+                        <a href="#agree">Agreeableness</a>
+                    </li>
+                    <li>
+                        <a href="#neuro">Neuroticism</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Header -->
+    <section id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1><b>USA Personality Distribution</b></h1>
+                    <h4>Hover on map for state-wise information</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Content -->
+    <section id = "open" >
+        <div class="container">
+            <div class="row">
+                <div>
+                  <center><h2>Openness Personality Trait</h2></center>
+                  <hr><br>
+                  <center><div id="legend_o"></div></center>
+                  <div id="container1" class="center-block" style="height: 450px; width: 960px"></div> 
+                    
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <script>
+                    var map = new Datamap({
+                      scope: 'usa',
+                      element: document.getElementById('container1'),
+                      responsive: true,
+                      geographyConfig: {
+                          popupTemplate: function(geo, data) {
+                          return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+"</div>";
+                        },
+                        highlightFillColor: '#ffcb05',
+                        highlightOnHover: true,
+                        borderColor: '#3E2723',
+                        borderWidth: 1.2,
+                        highlightBorderColor: '#00417f',
+                        highlightBorderWidth: 2,
+                        highlightBorderOpacity: 1
+                      },
+                      dataUrl: 'data_o.json',
+                      dataType: 'json',
+                      data: {},
+                      fills: {  //Shades of Cyan
+                        'LOW': '#7f93a5',   
+                        'LOWMED': '#4c6781',   
+                        'MED' : '#32526f',
+                        'HIGHMED' : '#193c5d',
+                        'HIGH' : '#00274c',
+                        defaultFill: 'grey'
+                      }
+                    }); //end of Datamap variable
+                      
+                  //draw a legend for this map
+
+                  var colors = d3.scale.quantize()
+                  .range(["#7f93a5", "#4c6781", "#32526f", "#193c5d", "#00274c" ]);
+                var legend = d3.select('#legend_o')
+                  .append('ul')
+                    .attr('class', 'list-inline');
+
+                var keys = legend.selectAll('li.key')
+                    .data(colors.range());
+
+                keys.enter().append('li')
+                    .attr('class', 'key')
+                    .style('border-top-color', String)
+                    .text(function(d) {
+                        var r = colors.invertExtent(d);
+                        return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });
+
+                 /*map.legend({
+                  legendTitle : "Openness Personality Trait",
+                  defaultFillName: "No Data",
+                  labels: {
+                    'LOW': "0-10",   
+                    'LOWMED': "11-20",   
+                    'MED' : "21-30",
+                    'HIGHMED' : "31-40",
+                    'HIGH' : "41-50"
+                  },
+                }); */
+        </script>
+    </section>
+    
+    <!-- Conc Content -->
+    <section id = "conc" >
+        <div class="container">
+            <div class="row">
+                <div>
+                    <center><h2>Conscientiousness Personality Trait </h></center>
+                    <hr><br>
+                    <center><div id="legend_c"></div></center>
+                    <div id="container2" class="center-block" style="height: 450px; width: 960px"></div> 
+                    
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <script>
+                
+                  var map = new Datamap({
+                      scope: 'usa',
+                      element: document.getElementById('container2'),
+                      responsive: true,
+                      geographyConfig: {
+                          popupTemplate: function(geo, data) {
+                          return data && data.conscientiousness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.conscientiousness+"</div>";
+                        },
+                        highlightFillColor: '#FF9800',
+                        highlightOnHover: true,
+                        borderColor: '#3E2723',
+                        borderWidth: 1.2,
+                        highlightBorderColor: '#3E2723',
+                        highlightBorderWidth: 2,
+                        highlightBorderOpacity: 1
+                      },
+                      dataUrl: 'data_c.json',
+                      dataType: 'json',
+                      data: {},
+                      fills: {  //Shades of Cyan
+                        'LOW': '#F06292',   
+                        'LOWMED': '#E91E63',   
+                        'MED' : '#D81B60',
+                        'HIGHMED' : '#AD1457',
+                        'HIGH' : '#880E4F',
+                        defaultFill: 'grey'
+                      }
+                    }); //end of Datamap variable
+                      
+                  //draw a legend for this map
+                var colors = d3.scale.quantize()
+                  .range(["#F06292", "#E91E63", "#D81B60", "#AD1457", "#880E4F" ]);
+                var legend = d3.select('#legend_c')
+                  .append('ul')
+                    .attr('class', 'list-inline');
+
+                var keys = legend.selectAll('li.key')
+                    .data(colors.range());
+
+                keys.enter().append('li')
+                    .attr('class', 'key')
+                    .style('border-top-color', String)
+                    .text(function(d) {
+                        var r = colors.invertExtent(d);
+                        return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });
+                /* map.legend({
+
+                  legendTitle : "Conscientiousness Personality Trait",
+                  defaultFillName: "No data",
+                  labels: {
+                    'LOW': "0-10",   
+                    'LOWMED': "11-20",   
+                    'MED' : "21-30",
+                    'HIGHMED' : "31-40",
+                    'HIGH' : "41-50"
+                  },
+                });*/
+        </script>
+    </section>
+
+    <!-- Extra Content -->
+    <section id = "extra" >
+        <div class="container">
+            <div class="row">
+                <div>
+                    <center><h2>Extraversion Personality Trait </h></center>
+                    <hr><br>
+                    <center><div id="legend_e"></div></center>
+                    <div id="container3" class="center-block" style="height: 450px; width: 960px"></div> 
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <script>
+                var p_type;
+                  var map = new Datamap({
+                      scope: 'usa',
+                      element: document.getElementById('container3'),
+                      responsive: true,
+                      geographyConfig: {
+                          popupTemplate: function(geo, data) {
+                          return data && data.extraversion && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.extraversion+"</div>";
+                        },
+                        highlightFillColor: '#FF5722',
+                        highlightOnHover: true,
+                        borderColor: '#3E2723',
+                        borderWidth: 1.2,
+                        highlightBorderColor: '#3E2723',
+                        highlightBorderWidth: 2,
+                        highlightBorderOpacity: 1
+                      },
+                      dataUrl: 'data_e.json',
+                      dataType: 'json',
+                      data: {},
+                      fills: {  //Shades of Cyan
+                        'LOW': '#FFE082',   
+                        'LOWMED': '#FFCA28',   
+                        'MED' : '#FFB300',
+                        'HIGHMED' : '#FF8F00',
+                        'HIGH' : '#FF6F00',
+                        defaultFill: 'grey'
+                      }
+                    }); //end of Datamap variable
+                      
+                  //draw a legend for this map
+               var colors = d3.scale.quantize()
+                  .range(["#FFE082", "#FFCA28", "#FFB300", "#FF8F00", "#FF6F00" ]);
+                var legend = d3.select('#legend_e')
+                  .append('ul')
+                    .attr('class', 'list-inline');
+
+                var keys = legend.selectAll('li.key')
+                    .data(colors.range());
+
+                keys.enter().append('li')
+                    .attr('class', 'key')
+                    .style('border-top-color', String)
+                    .text(function(d) {
+                        var r = colors.invertExtent(d);
+                        return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });
+                 /*map.legend({
+
+                  legendTitle : "Extraversion Personality Trait",
+                  defaultFillName: "No data",
+                  labels: {
+                    'LOW': "0-10",   
+                    'LOWMED': "11-20",   
+                    'MED' : "21-30",
+                    'HIGHMED' : "31-40",
+                    'HIGH' : "41-50"
+                  },
+                });*/
+        </script>
+    </section>
+
+    <!-- agree Content -->
+    <section id = "agree">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <center><h2>Agreeableness Personality Trait </h></center>
+                    <hr><br>
+                    <center><div id="legend_a"></div></center>
+                    <div id="container4" class="center-block" style="height: 450px; width: 960px"></div> 
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <script>
+                var p_type;
+                  var map = new Datamap({
+                      scope: 'usa',
+                      element: document.getElementById('container4'),
+                      responsive: true,
+                      geographyConfig: {
+                          popupTemplate: function(geo, data) {
+                          return data && data.agreeableness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.agreeableness+"</div>";
+                        },
+                        highlightFillColor: '#FF9800',
+                        highlightOnHover: true,
+                        borderColor: '#3E2723',
+                        borderWidth: 1.2,
+                        highlightBorderColor: '#3E2723',
+                        highlightBorderWidth: 2,
+                        highlightBorderOpacity: 1
+                      },
+                      dataUrl: 'data_1.json',
+                      dataType: 'json',
+                      data: {},
+                      fills:{  //Shades of Cyan
+                        'LOW': '#EF9A9A',   
+                        'LOWMED': '#EF5350',   
+                        'MED' : '#FF1744',
+                        'HIGHMED' : '#E53935',
+                        'HIGH' : '#B71C1C',
+                        defaultFill: 'grey'
+                    }
+                    }); //end of Datamap variable
+                      
+                  //draw a legend for this map
+                  var colors = d3.scale.quantize()
+                  .range(["#EF9A9A", "#EF5350", "#FF1744", "#E53935", "#B71C1C" ]);
+                var legend = d3.select('#legend_a')
+                  .append('ul')
+                    .attr('class', 'list-inline');
+
+                var keys = legend.selectAll('li.key')
+                    .data(colors.range());
+
+                keys.enter().append('li')
+                    .attr('class', 'key')
+                    .style('border-top-color', String)
+                    .text(function(d) {
+                        var r = colors.invertExtent(d);
+                        return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });
+                 /*map.legend({
+                  legendTitle : "Agreeableness Personality Trait",
+                  defaultFillName: "No data",
+                  labels: {
+                    'LOW': "0-10",   
+                    'LOWMED': "11-20",   
+                    'MED' : "21-30",
+                    'HIGHMED' : "31-40",
+                    'HIGH' : "41-50"
+                  },
+                });*/
+        </script>
+    </section>
+
+    <!-- neuro Content -->
+    <section id = "neuro" >
+        <div class="container">
+            <div class="row">
+                <div>
+                    <center><h2>Neuroticism Personality Trait </h></center>
+                    <hr><br>
+                    <center><div id="legend_n"></div></center>
+                    <div id="container5" class="center-block" style="height: 450px; width: 960px"></div> 
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <script>
+                var map = new Datamap({
+                  scope: 'usa',
+                  element: document.getElementById('container5'),
+                  responsive: true,
+                  geographyConfig: {
+                      popupTemplate: function(geo, data) {
+                      return data && data.neuroticism && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.neuroticism+"</div>";
+                    },
+                    highlightFillColor: '#FF9800',
+                    highlightOnHover: true,
+                    borderColor: '#212121',
+                    borderWidth: 1.2,
+                    highlightBorderColor: '#212121',
+                    highlightBorderWidth: 2,
+                    highlightBorderOpacity: 1
+                  },
+                  dataUrl: 'data_n.json',
+                  dataType: 'json',
+                  data: {},
+                  fills: {  //Shades of purple
+                        'LOW': '#B39DDB',   
+                        'LOWMED': '#7E57C2',   
+                        'MED' : '#5E35B1',
+                        'HIGHMED' : '#4527A0',
+                        'HIGH' : '#311B92',
+                        defaultFill: 'grey'
+                    }
+                }); //end of Datamap variable
+                  
+              //draw a legend for this map
+              var colors = d3.scale.quantize()
+                  .range(["#B39DDB", "#7E57C2", "#5E35B1", "#4527A0", "#311B92" ]);
+                var legend = d3.select('#legend_n')
+                  .append('ul')
+                    .attr('class', 'list-inline');
+
+                var keys = legend.selectAll('li.key')
+                    .data(colors.range());
+
+                keys.enter().append('li')
+                    .attr('class', 'key')
+                    .style('border-top-color', String)
+                    .text(function(d) {
+                        var r = colors.invertExtent(d);
+                        return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });
+             /*map.legend({
+              legendTitle : "Neuroticism Personality Trait",
+              defaultFillName: "No data",
+              labels: {
+                    'LOW': "0-10",   
+                    'LOWMED': "11-20",   
+                    'MED' : "21-30",
+                    'HIGHMED' : "31-40",
+                    'HIGH' : "41-50"
+                  },
+            });*/
+        </script>
+    </section>
+
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
