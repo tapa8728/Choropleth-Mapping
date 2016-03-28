@@ -1,5 +1,7 @@
-from collections import defaultdict
-
+"""
+Read 2 files 
+Computation time: ~11-12 mins
+"""
 #read files
 user_data = open("gfg_users_states.csv", "r")
 resp_data = open("gfg_personality_survey_responses.csv", "r")
@@ -18,7 +20,6 @@ for l in lines_user:	#userid, states file
 		gfgid = m[0].replace("\"", "")					#can be put into a function int_cleanup()
 		state = m[1].replace("\n", "").replace("\"", "")	#can be put into a function string_cleanup()
 		d[gfgid] = {'state' : state}				# append an object to dictionary
-		print "gfgid:",gfgid," state:",state
 		for l2 in lines_resp:	#userid, questionid, answer file
 			k = l2.split(",")
 			if(m[0] == k[0]):
@@ -27,7 +28,6 @@ for l in lines_user:	#userid, states file
 				if gfgid in d:
 					d[gfgid][q_no]=str(ans)	# if key found in d dictionary
 	
-print d
 p = d
 f1.write(str(p))
 
