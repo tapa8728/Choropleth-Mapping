@@ -62,6 +62,19 @@ class PersonalityOperations(object):
 					respList = rLine.split(",")
 					if(userList[0] == respList[0]):
 						q_no, ans = respList[1].replace("\"", ""), respList[2].replace("\n", "").replace("\"", "")
+						if ans == 'Disagree strongly':
+							ans = 1
+						elif ans == 'Disagree a little':
+							ans = 2
+						elif ans == 'Neither agree':	#neutral
+							ans = 3
+						elif ans == 'Agree a little':
+							ans = 4
+						elif ans == 'Agree strongly':
+							ans = 5
+						else:	# question#45 is feedback and does not need to be replaced
+							ans = str(ans)
+						print "After conversion  --> ",q_no," --", ans
 						if gfgid in self.userDict:
 							#if key found in userDict dictionary
 							self.userDict[gfgid][q_no]=str(ans)		
