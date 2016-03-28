@@ -80,11 +80,13 @@ class PersonalityOperations(object):
 							#if key found in userDict dictionary
 							self.userDict[gfgid][q_no]=str(ans)		
 			# Calculate O,C,E,A,N values after this point and add those (key,value) pairs to the nested dictionary
-			# ONly then move to the next user
+			# Only then move to the next user
 			print "dict ---> ", self.userDict
-			print "nested Dict --:   ", self.userDict[gfgid]
-			# for k in self.userDict[gfgid]:
-			# 	print "key is - ", k, " amd value is - ", v
+			m = self.userDict[gfgid]
+			print "nested Dict --:   ", m
+			for k in m:
+				print "k is--", k, " and value is-", m[k]
+			 	#print "key is - ", k, " and value is - ", v
 			break
 	
 	'''
