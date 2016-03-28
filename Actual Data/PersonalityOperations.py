@@ -8,6 +8,8 @@ class PersonalityOperations(object):
 		self.user_data = None
 		self.resp_data = None
 		self.d = {}	
+		m = []
+		k= []
 		
 	def readFile(self,fname1,fname2):
 		self.user_data = open(fname1, "r")
@@ -29,7 +31,7 @@ class PersonalityOperations(object):
 			m=l.split(",")	
 			if m[1] != '\n':	#do nothing if state is null
 				print m
-				gfgid, state = self.m[0].replace("\"", ""), m[1].replace("\n", "").replace("\"", "")					
+				gfgid, state = m[0].replace("\"", ""), m[1].replace("\n", "").replace("\"", "")					
 				self.d[gfgid] = {'state' : state}				# append an object to dictionary
 				for l2 in self.lines_resp:	#userid, questionid, answer file
 					k = l2.split(",")
