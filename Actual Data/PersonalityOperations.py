@@ -50,6 +50,7 @@ class PersonalityOperations(object):
 	''' 
 	def combineUserDataAndResponses(self):
 		#userid, states file
+		count=0
 		for uLine in self.userLines:							
 			userList=uLine.split(",")
 			#do nothing if state is null
@@ -74,10 +75,16 @@ class PersonalityOperations(object):
 							ans = 5
 						else:	# question#45 is feedback and does not need to be replaced
 							ans = str(ans)
-						print "After conversion  --> ",q_no," --", ans
+						#print "After conversion  --> ",q_no," --", ans
 						if gfgid in self.userDict:
 							#if key found in userDict dictionary
 							self.userDict[gfgid][q_no]=str(ans)		
+			# Calculate O,C,E,A,N values after this point and add those (key,value) pairs to the nested dictionary
+			# ONly then move to the next user
+			print "dict ---> ", self.userDict
+			print "nested Dict --:   ", self.userDict[gfgid]
+			# for k in self.userDict[gfgid]:
+			# 	print "key is - ", k, " amd value is - ", v
 			break
 	
 	'''
