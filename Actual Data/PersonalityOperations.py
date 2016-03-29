@@ -100,6 +100,7 @@ class PersonalityOperations(object):
 			# Only then move to the next user
 			try:
 				nD = self.userDict[gfgid]
+				self.userDict[gfgid]['corrupt'] = 0		# initially set the corrupt flag to false
 				# Openness = 5, 10, 15, 20, 25, 30, 35R, 40, 41R, 44
 				self.userDict[gfgid]['O'] = round(float(nD['5'] + nD['10'] + nD['15'] + nD['20']+ nD['25'] + nD['30'] 
 				+ self.reverse(nD['35']) + nD['40'] + self.reverse(nD['41']) + nD['44'])/10, 2)
@@ -122,15 +123,16 @@ class PersonalityOperations(object):
 
 			except KeyError, e:	# Incase value(s) is missing for a "gfgid", delete it from the dictionary
 			    print 'I got a KeyError - reason "%s"' % str(e)
-			    del self.userDict[gfgid]	
+			    self.userDict[gfgid]['corrupt']	= 1
 			except:
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
+
 			# print ""
 			# print "######### ", self.userDict
-			if( gfgid == "108"):
-				break
+			# if( gfgid == "19"):
+			# 	break
 	
 	'''
 		Write userDict to the file "user_dict.txt"
