@@ -98,45 +98,39 @@ class PersonalityOperations(object):
 							self.userDict[gfgid][q_no]=ans
 			# Calculate O,C,E,A,N values after this point and add those (key,value) pairs to the nested dictionary
 			# Only then move to the next user
-			print "dict ---> ", self.userDict
-			nD = self.userDict[gfgid]
-			print ""
-			print "nested Dict -- :   ", nD
-			# Openness = 5, 10, 15, 20, 25, 30, 35R, 40, 41R, 44
-			openVal = round(float(int(nD['5']) + int(nD['10']) + int(nD['15']) + int(nD['20'])+ int(nD['25']) + int(nD['30']) 
-			+ self.reverse(int(nD['35'])) + int(nD['40']) + self.reverse(int(nD['41'])) + int(nD['44']))/10, 2)
-			print "Openness -- ", openVal
-			self.userDict[gfgid]['O'] = openVal
+			try:
+				nD = self.userDict[gfgid]
+				# Openness = 5, 10, 15, 20, 25, 30, 35R, 40, 41R, 44
+				self.userDict[gfgid]['O'] = round(float(nD['5'] + nD['10'] + nD['15'] + nD['20']+ nD['25'] + nD['30'] 
+				+ self.reverse(nD['35']) + nD['40'] + self.reverse(nD['41']) + nD['44'])/10, 2)
 
-			# Conscientiousness: 3, 8R, 13, 18R, 23R, 28, 33, 38, 43R
-			concVal = round(float(int(nD['3']) + self.reverse(int(nD['8'])) + int(nD['13']) + self.reverse(int(nD['18'])) 
-			+ self.reverse(int(nD['23'])) + int(nD['28']) + int(nD['33']) + int(nD['38']) + self.reverse(int(nD['43'])))/9, 2)
-			print "Conscientiousness -- ", concVal
-			self.userDict[gfgid]['C'] = concVal
+				# Conscientiousness: 3, 8R, 13, 18R, 23R, 28, 33, 38, 43R
+				self.userDict[gfgid]['C'] = round(float(int(nD['3']) + self.reverse(int(nD['8'])) + int(nD['13']) + self.reverse(int(nD['18'])) 
+				+ self.reverse(int(nD['23'])) + int(nD['28']) + int(nD['33']) + int(nD['38']) + self.reverse(int(nD['43'])))/9, 2)
 
-			# Extraversion: 1, 6R, 11, 16, 21R, 26, 31R, 36
-			extraVal = round(float(int(nD['1']) + self.reverse(int(nD['6'])) + int(nD['11']) + int(nD['16']) 
-			+ self.reverse(int(nD['21'])) + int(nD['26']) + self.reverse(int(nD['31'])) + int(nD['36']))/8, 2)
-			print "Extraversion -- ", extraVal
-			self.userDict[gfgid]['E'] = extraVal
+				# Extraversion: 1, 6R, 11, 16, 21R, 26, 31R, 36
+				self.userDict[gfgid]['E'] = round(float(int(nD['1']) + self.reverse(int(nD['6'])) + int(nD['11']) + int(nD['16']) 
+				+ self.reverse(int(nD['21'])) + int(nD['26']) + self.reverse(int(nD['31'])) + int(nD['36']))/8, 2)
 
-			# Agreeableness: 2R, 7, 12R, 17, 22, 27R, 32, 37R, 42
-			agreeVal = round(float(self.reverse(int(nD['2'])) + int(nD['7']) + self.reverse(int(nD['12'])) + int(nD['17'])+ int(nD['22'])  
-			+ self.reverse(int(nD['27'])) + int(nD['32']) + self.reverse(int(nD['37'])) + int(nD['42']))/9, 2)
-			print "Agreeableness -- ", agreeVal
-			self.userDict[gfgid]['A'] = agreeVal
+				# Agreeableness: 2R, 7, 12R, 17, 22, 27R, 32, 37R, 42
+				self.userDict[gfgid]['A'] = round(float(self.reverse(int(nD['2'])) + int(nD['7']) + self.reverse(int(nD['12'])) + int(nD['17'])+ int(nD['22'])  
+				+ self.reverse(int(nD['27'])) + int(nD['32']) + self.reverse(int(nD['37'])) + int(nD['42']))/9, 2)
 
-			# Neuroticism: 4, 9R, 14, 19, 24R, 29, 34R, 39
-			neuroVal = round(float(int(nD['4']) + self.reverse(int(nD['9'])) + int(nD['14']) + int(nD['19'])+ self.reverse(int(nD['24'])) 
-				+ int(nD['29']) + self.reverse(int(nD['34'])) + int(nD['39']))/8, 2)
-			print "Neuroticism -- ", neuroVal
-			self.userDict[gfgid]['N'] = neuroVal
+				# Neuroticism: 4, 9R, 14, 19, 24R, 29, 34R, 39
+				self.userDict[gfgid]['N'] = round(float(int(nD['4']) + self.reverse(int(nD['9'])) + int(nD['14']) + int(nD['19'])+ self.reverse(int(nD['24'])) 
+					+ int(nD['29']) + self.reverse(int(nD['34'])) + int(nD['39']))/8, 2) 
 
-			print ""
+			except KeyError, e:	# Incase value(s) is missing for a "gfgid", delete it from the dictionary
+			    print 'I got a KeyError - reason "%s"' % str(e)
+			    del self.userDict[gfgid]	
+			except:
+			    print 'I got another exception, but I should re-raise'
+			    raise
 
-			print "######### ", self.userDict
-
-			break
+			# print ""
+			# print "######### ", self.userDict
+			if( gfgid == "108"):
+				break
 	
 	'''
 		Write userDict to the file "user_dict.txt"
