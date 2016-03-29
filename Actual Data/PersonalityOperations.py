@@ -95,7 +95,7 @@ class PersonalityOperations(object):
 						#print "After conversion  --> ",q_no," --", ans
 						if gfgid in self.userDict:
 							#if key found in userDict dictionary
-							self.userDict[gfgid][q_no]=str(ans)		
+							self.userDict[gfgid][q_no]=ans
 			# Calculate O,C,E,A,N values after this point and add those (key,value) pairs to the nested dictionary
 			# Only then move to the next user
 			print "dict ---> ", self.userDict
@@ -103,17 +103,39 @@ class PersonalityOperations(object):
 			print ""
 			print "nested Dict -- :   ", nD
 			# Openness = 5, 10, 15, 20, 25, 30, 35R, 40, 41R, 44
-			openVal = int(nD['5']) + int(nD['10']) + int(nD['15']) + int(nD['20'])+ int(nD['25']) + int(nD['30']) + int(nD['35']) + int(nD['40']) + int(nD['41']) + int(nD['44'])
-			print "Reverse of 10 --", self.reverse(int(nD['10'])), " and nD['10'] is ", nD['10']
+			openVal = round(float(int(nD['5']) + int(nD['10']) + int(nD['15']) + int(nD['20'])+ int(nD['25']) + int(nD['30']) 
+			+ self.reverse(int(nD['35'])) + int(nD['40']) + self.reverse(int(nD['41'])) + int(nD['44']))/10, 2)
 			print "Openness -- ", openVal
+			self.userDict[gfgid]['O'] = openVal
+
 			# Conscientiousness: 3, 8R, 13, 18R, 23R, 28, 33, 38, 43R
-			concVal =4
+			concVal = round(float(int(nD['3']) + self.reverse(int(nD['8'])) + int(nD['13']) + self.reverse(int(nD['18'])) 
+			+ self.reverse(int(nD['23'])) + int(nD['28']) + int(nD['33']) + int(nD['38']) + self.reverse(int(nD['43'])))/9, 2)
+			print "Conscientiousness -- ", concVal
+			self.userDict[gfgid]['C'] = concVal
+
 			# Extraversion: 1, 6R, 11, 16, 21R, 26, 31R, 36
-			extraVal =4
+			extraVal = round(float(int(nD['1']) + self.reverse(int(nD['6'])) + int(nD['11']) + int(nD['16']) 
+			+ self.reverse(int(nD['21'])) + int(nD['26']) + self.reverse(int(nD['31'])) + int(nD['36']))/8, 2)
+			print "Extraversion -- ", extraVal
+			self.userDict[gfgid]['E'] = extraVal
+
 			# Agreeableness: 2R, 7, 12R, 17, 22, 27R, 32, 37R, 42
-			agreeVal =4
+			agreeVal = round(float(self.reverse(int(nD['2'])) + int(nD['7']) + self.reverse(int(nD['12'])) + int(nD['17'])+ int(nD['22'])  
+			+ self.reverse(int(nD['27'])) + int(nD['32']) + self.reverse(int(nD['37'])) + int(nD['42']))/9, 2)
+			print "Agreeableness -- ", agreeVal
+			self.userDict[gfgid]['A'] = agreeVal
+
 			# Neuroticism: 4, 9R, 14, 19, 24R, 29, 34R, 39
-			neuroVal = 4
+			neuroVal = round(float(int(nD['4']) + self.reverse(int(nD['9'])) + int(nD['14']) + int(nD['19'])+ self.reverse(int(nD['24'])) 
+				+ int(nD['29']) + self.reverse(int(nD['34'])) + int(nD['39']))/8, 2)
+			print "Neuroticism -- ", neuroVal
+			self.userDict[gfgid]['N'] = neuroVal
+
+			print ""
+
+			print "######### ", self.userDict
+
 			break
 	
 	'''
