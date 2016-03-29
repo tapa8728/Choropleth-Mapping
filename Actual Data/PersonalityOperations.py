@@ -16,7 +16,7 @@ class PersonalityOperations(object):
 		Open and read "gfg_users_states.csv" & "gfg_personality_survey_responses.csv"
 	'''	
 	def readFile(self,fname1,fname2):
-		self.userData = open(fname1, "r")
+		self.userData = open(fname1, "r")	
 		self.respData = open(fname2, "r")
 
 	'''
@@ -128,12 +128,24 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-
 			# print ""
 			# print "######### ", self.userDict
-			# if( gfgid == "19"):
+			# if( gfgid == "241"):
 			# 	break
-	
+		
+
+	'''
+		Weed out all the users with corrupt flag as set
+	'''
+	def cleanDict(self):
+		cList = []
+		for k in self.userDict:
+			if self.userDict[k]['corrupt'] == 1:
+				cList.append(k)
+				
+		print "List of corrupt gfgid is - ", cList	
+
+
 	'''
 		Write userDict to the file "user_dict.txt"
 	'''		
@@ -147,6 +159,7 @@ if __name__== "__main__":
 	Po.writeFile("user_dict.txt")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
+	Po.cleanDict()
 	Po.writeToFile()
 else:
 	print "Wrong module imported."
