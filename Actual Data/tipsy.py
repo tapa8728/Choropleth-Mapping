@@ -76,11 +76,30 @@ for i,each in enumerate(list3):
 		ans[each[0]]['N'].append(each[5])
 
 ans_avg={}
-print ans
-exit()
+'''
+for i,each in enumerate(ans.values()):
+	print each
+	#print ans.keys()
+	for every in each.keys():
+		#print every
+		#print each[every]
+		each[every] = (sum(each[every]) + 0.0 / len(each[every])) if len(every)!=0 else 0
+	raw_input()
+'''
 
 
-for each in ans.items():
-	tmp_lst = list(each)
-	print type(each),len(each),list(each)
-	raw_input("")
+
+d = {'a':{ 'b':20,'c':30} }
+
+'''
+for each in (d.values()):
+	print each
+	for every in each.keys():
+		each[every]= 100
+print d
+'''
+ds = [1,2,3,[4,5,6]]
+for i,each in enumerate(ds):
+	each[3] = 100
+print ds
+
