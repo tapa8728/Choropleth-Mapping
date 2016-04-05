@@ -1,3 +1,7 @@
+import operator
+import collections
+import numpy
+
 class PersonalityOperations(object):
 	'''
 		Read 2 files Nested for loop to merge them into 1  
@@ -169,9 +173,66 @@ class PersonalityOperations(object):
 		{'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}}
 
 	'''
-	def statewiseDict(self):
-		
+	def crunchStateDict(self):
+		#self.statewiseDict={}
+		list1=[]
+		list2=[]
+		list3=[]
+		for each in self.stateDict.values():
+			list1.append(each)
 
+		'''
+		for each in list1:
+			print each
+		exit()
+		'''
+		for each in list1:
+			tmp=[]
+			tmp.append(each['state'])
+			tmp.append(each['O'])
+			tmp.append(each['C'])
+			tmp.append(each['E'])
+			tmp.append(each['A'])
+			tmp.append(each['N'])
+			list2.append(tmp)
+			tmp=None
+		'''
+		for each in list2:
+			print each
+		exit()
+		'''
+
+		list3 = sorted(list2, key=operator.itemgetter(0, 1))
+		#list3 = sorted(list2, key=list[0])
+		'''
+		for each in list3:
+			print each
+		exit()
+		'''
+		for i,each in enumerate(list3):
+			if each[0] not in self.statewiseDict:
+				self.statewiseDict[each[0]] = {'O':[],'C':[],'E':[],'A':[],'N':[]}		
+				self.statewiseDict[each[0]]['O'].append(each[1])
+				self.statewiseDict[each[0]]['C'].append(each[2])
+				self.statewiseDict[each[0]]['E'].append(each[3])
+				self.statewiseDict[each[0]]['A'].append(each[4])
+				self.statewiseDict[each[0]]['N'].append(each[5])
+			elif each[0] in self.statewiseDict:
+				#print ans[each[0]]['A']
+				#exit()
+				self.statewiseDict[each[0]]['O'].append(each[1])
+				self.statewiseDict[each[0]]['C'].append(each[2])
+				self.statewiseDict[each[0]]['E'].append(each[3])
+				self.statewiseDict[each[0]]['A'].append(each[4])
+				self.statewiseDict[each[0]]['N'].append(each[5])
+
+		# Compute avergage for each state
+		for i,each in enumerate(self.statewiseDict.values()):
+			for every in each.keys():
+				each[every] = (sum(each[every]) + 0.0 / len(each[every])) if len(every)!=0 else 0
+		
+		print "----------------------------------------"	
+		print self.statewiseDict
 
 
 	'''
@@ -189,6 +250,7 @@ if __name__== "__main__":
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.cleanDict()
+	Po.crunchStateDict()
 	Po.writeToFile()
 else:
 	print "Wrong module imported."
