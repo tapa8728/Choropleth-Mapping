@@ -29,8 +29,9 @@ class PersonalityOperations(object):
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
 		O,C,E,A,N values computed for each gfgid
 	'''
-	def writeFile(self,fname1):
+	def writeFile(self,fname1,fname2):
 		self.firstOutputFile = open(fname1, "w")
+		self.secondOutputFile = open(fname2, "w")
 
 	'''
 		Read the files into respective lists
@@ -136,8 +137,8 @@ class PersonalityOperations(object):
 
 			# print ""
 			# print "######### ", self.userDict
-			if( gfgid == "27"):
-			 	break
+			# if( gfgid == "27"):
+			#  	break
 		
 
 	'''
@@ -229,7 +230,7 @@ class PersonalityOperations(object):
 		# Compute avergage for each state
 		for i,each in enumerate(self.statewiseDict.values()):
 			for every in each.keys():
-				each[every] = (sum(each[every]) + 0.0 / len(each[every])) if len(every)!=0 else 0
+				each[every] = round((sum(each[every]) + 0.0 / len(each[every])), 2) if len(every)!=0 else 0
 		
 		print "----------------------------------------"	
 		print self.statewiseDict
@@ -240,12 +241,13 @@ class PersonalityOperations(object):
 	'''		
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
+		self.secondOutputFile.write(str(self.statewiseDict))
 
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
 	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv")
-	Po.writeFile("user_dict.txt")
+	Po.writeFile("user_dict.txt", "crunched_dict.txt")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
