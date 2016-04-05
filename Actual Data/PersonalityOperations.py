@@ -10,6 +10,7 @@ class PersonalityOperations(object):
 		self.respData = None
 		self.userDict = {}	
 		self.stateDict = {}		#state, OCEAN
+		self.statewiseDict ={}  #state:[OCEAN]
 		userList = []
 		respList= []
 		
@@ -147,7 +148,8 @@ class PersonalityOperations(object):
 		print "List of corrupt gfgid is - ", cList	
 
 	'''
-		Create a new dictionary with only state and OCEAN values
+		Create a new dictionary with only state and OCEAN values 
+		{'gfgid':{'state: 'MI', 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
 	'''
 	def relevantDict(self):
 		for k in self.userDict:
@@ -159,8 +161,17 @@ class PersonalityOperations(object):
 				self.stateDict[k]['E'] = self.userDict[k]['E']
 				self.stateDict[k]['A'] = self.userDict[k]['A']	
 				self.stateDict[k]['N'] = self.userDict[k]['N']	
-									
+
 		print "State dictionary is - ", self.stateDict
+
+	'''
+		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
+		{'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}}
+
+	'''
+	def statewiseDict(self):
+		
+
 
 
 	'''
