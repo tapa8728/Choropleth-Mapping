@@ -16,6 +16,7 @@ class PersonalityOperations(object):
 		self.stateDict = {}		#state, OCEAN
 		self.statewiseDict ={}  #state:[OCEAN]
 		self.jsonString = None
+		self.openString = None	#to build the openness.json
 		self.amlist=[]
 		userList = []
 		respList= []
@@ -31,10 +32,11 @@ class PersonalityOperations(object):
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
 		O,C,E,A,N values computed for each gfgid
 	'''
-	def writeFile(self,fname1,fname2,fname3):
+	def writeFile(self,fname1,fname2,fname3,fname4):
 		self.firstOutputFile = open(fname1, "w")
 		self.secondOutputFile = open(fname2, "w")
 		self.thirdOutputFile = open(fname3, "w")
+		self.fourthOuputFile = open(fname4, "w")
 
 	'''
 		Read the files into respective lists
@@ -155,7 +157,7 @@ class PersonalityOperations(object):
 			if self.userDict[k]['corrupt'] == 1:
 				cList.append(k)
 				
-		print "List of corrupt gfgid is - ", cList	
+		#print "List of corrupt gfgid is - ", cList	
 
 	'''
 		Create a new dictionary with only state and OCEAN values 
@@ -172,7 +174,7 @@ class PersonalityOperations(object):
 				self.stateDict[k]['A'] = self.userDict[k]['A']	
 				self.stateDict[k]['N'] = self.userDict[k]['N']	
 
-		print "State dictionary is - ", self.stateDict
+		print "State dictionary is --------------- ", self.stateDict
 
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
@@ -245,6 +247,32 @@ class PersonalityOperations(object):
 	'''
 	def jsonConvert1(self):
 		m = self.statewiseDict
+		# add the color range
+		# Openness
+		openlist=[]
+		for each in m:
+			do = {}
+			do['state'] = each
+			for every in m[each]:
+				do['openness'] = m[each]['O']
+				if 0 <= do['openness'] < 100:
+					do['fillKey'] = 'LOW'
+				elif 100 <= do['openness'] < 250:
+					do['fillKey'] = 'LOWMED'
+				elif 250 <= do['openness'] < 600:
+					do['fillKey'] = 'MED'
+				elif 601 <= do['openness'] < 700:
+					do['fillKey'] = 'HIGHMED'
+				else: #above 700
+					do['fillKey'] = 'HIGH'
+			openlist.append(do)
+
+		self.openString = str(openlist).replace("'", "\"")
+		print "Openness JSON -------------", self.openString
+
+
+
+		#convert the values to strings - no color information
 		for each in m:
 			for every in m[each]:
 				s = str(m[each][every])
@@ -254,7 +282,7 @@ class PersonalityOperations(object):
 
 
 	'''
-		Convert to .json format for amcharts
+		Convert to .json format for AmCharts
 	'''
 	def jsonConvert2(self):
 		for each in self.statewiseDict:
@@ -268,7 +296,7 @@ class PersonalityOperations(object):
 				d2['N'] = self.statewiseDict[each]['N']
 			self.amlist.append(d2)
 
-		print "AMLISt is - ", str(self.amlist).replace("'", "\"")
+		print "Amcharts JSON ------------- ", str(self.amlist).replace("'", "\"")
 				
 
 	'''
@@ -278,12 +306,13 @@ class PersonalityOperations(object):
 		self.firstOutputFile.write(str(self.userDict))
 		self.secondOutputFile.write(self.jsonString)
 		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
+		self.fourthOuputFile.write(self.openString)
 
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
 	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv")
-	Po.writeFile("user_dict.txt", "final.json", "amcharts.json")
+	Po.writeFile("user_dict.txt", "final.json", "amcharts.json", "openness.json")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
