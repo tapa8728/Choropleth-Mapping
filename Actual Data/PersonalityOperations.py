@@ -248,7 +248,7 @@ class PersonalityOperations(object):
 		for each in m:
 			for every in m[each]:
 				s = str(m[each][every])
-				self.m[each][every] = s
+				m[each][every] = s
 
 		self.jsonString = str(m).replace("'", "\"")
 
@@ -266,9 +266,9 @@ class PersonalityOperations(object):
 				d2['E'] = self.statewiseDict[each]['E']
 				d2['A'] = self.statewiseDict[each]['A']
 				d2['N'] = self.statewiseDict[each]['N']
-			amlist.append(d2)
+			self.amlist.append(d2)
 
-		print "AMLISt is - ", amlist
+		print "AMLISt is - ", str(self.amlist).replace("'", "\"")
 				
 
 	'''
@@ -277,13 +277,13 @@ class PersonalityOperations(object):
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
 		self.secondOutputFile.write(jsonString)
-		self.thirdOutputFile.write(str(amlist))
+		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
 
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
 	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv")
-	Po.writeFile("user_dict.txt", "final.json")
+	Po.writeFile("user_dict.txt", "final.json", "amcharts.json")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
