@@ -9,6 +9,7 @@ class PersonalityOperations(object):
 		self.userData = None
 		self.respData = None
 		self.userDict = {}	
+		self.stateDict = {}		#state, OCEAN
 		userList = []
 		respList= []
 		
@@ -130,12 +131,12 @@ class PersonalityOperations(object):
 
 			# print ""
 			# print "######### ", self.userDict
-			# if( gfgid == "241"):
-			# 	break
+			if( gfgid == "27"):
+			 	break
 		
 
 	'''
-		Weed out all the users with corrupt flag as set
+		Weed out all the users with a set corrupt flag
 	'''
 	def cleanDict(self):
 		cList = []
@@ -144,6 +145,28 @@ class PersonalityOperations(object):
 				cList.append(k)
 				
 		print "List of corrupt gfgid is - ", cList	
+
+	'''
+		Create a new dictionary with only state and OCEAN values
+	'''
+	def relevantDict(self):
+		for k in self.userDict:
+			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
+				
+				try:
+					if self.userDict[k]['state'] in self.stateDict:
+						pass
+					else:
+						self.stateDict[self.userDict[k]['state']]['O'] =[]
+						self.stateDict[self.userDict[k]['state']]['C'] =[]
+						self.stateDict[self.userDict[k]['state']]['E'] =[]
+						self.stateDict[self.userDict[k]['state']]['A'] =[]
+						self.stateDict[self.userDict[k]['state']]['N'] =[]
+
+					print "State dictionary is - ", self.stateDict
+				except KeyError, e:
+					print 'I got a KeyError - reason "%s"' % str(e)
+
 
 
 	'''
@@ -159,6 +182,7 @@ if __name__== "__main__":
 	Po.writeFile("user_dict.txt")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
+	Po.relevantDict()
 	Po.cleanDict()
 	Po.writeToFile()
 else:
