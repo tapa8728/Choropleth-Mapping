@@ -276,7 +276,7 @@ class PersonalityOperations(object):
 	'''		
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
-		self.secondOutputFile.write(jsonString)
+		self.secondOutputFile.write(self.jsonString)
 		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
 
 
