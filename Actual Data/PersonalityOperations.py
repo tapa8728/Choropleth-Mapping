@@ -163,10 +163,9 @@ class PersonalityOperations(object):
 						self.stateDict[self.userDict[k]['state']]['A'] =[]
 						self.stateDict[self.userDict[k]['state']]['N'] =[]
 
-					print "State dictionary is - ", self.stateDict
 				except KeyError, e:
 					print 'I got a KeyError - reason "%s"' % str(e)
-
+		print "State dictionary is - ", self.stateDict
 
 
 	'''
