@@ -237,7 +237,7 @@ class PersonalityOperations(object):
 		# Compute avergage for each state
 		for i,each in enumerate(self.statewiseDict.values()):
 			for every in each.keys():
-				each[every] = round((sum(each[every]) + 0.0 / len(each[every])), 2) if len(every)!=0 else 0
+				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 2) if len(every)!=0 else 0
 		
 		print "----------------------------------------"	
 		print self.statewiseDict
