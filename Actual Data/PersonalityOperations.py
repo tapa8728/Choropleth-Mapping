@@ -152,19 +152,14 @@ class PersonalityOperations(object):
 	def relevantDict(self):
 		for k in self.userDict:
 			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
-				
-				try:
-					if self.userDict[k]['state'] in self.stateDict:
-						pass
-					else:
-						self.stateDict[self.userDict[k]['state']]['O'] =[]
-						self.stateDict[self.userDict[k]['state']]['C'] =[]
-						self.stateDict[self.userDict[k]['state']]['E'] =[]
-						self.stateDict[self.userDict[k]['state']]['A'] =[]
-						self.stateDict[self.userDict[k]['state']]['N'] =[]
-
-				except KeyError, e:
-					print 'I got a KeyError - reason "%s"' % str(e)
+				self.stateDict[k] = {}
+				self.stateDict[k]['state'] = self.userDict[k]['state']	
+				self.stateDict[k]['O'] = self.userDict[k]['O']
+				self.stateDict[k]['C'] = self.userDict[k]['C']
+				self.stateDict[k]['E'] = self.userDict[k]['E']
+				self.stateDict[k]['A'] = self.userDict[k]['A']	
+				self.stateDict[k]['N'] = self.userDict[k]['N']	
+									
 		print "State dictionary is - ", self.stateDict
 
 
