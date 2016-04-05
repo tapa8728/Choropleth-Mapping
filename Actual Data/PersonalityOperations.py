@@ -15,6 +15,8 @@ class PersonalityOperations(object):
 		self.userDict = {}	
 		self.stateDict = {}		#state, OCEAN
 		self.statewiseDict ={}  #state:[OCEAN]
+		self.jsonString = None
+		self.amlist=[]
 		userList = []
 		respList= []
 		
@@ -29,9 +31,10 @@ class PersonalityOperations(object):
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
 		O,C,E,A,N values computed for each gfgid
 	'''
-	def writeFile(self,fname1,fname2):
+	def writeFile(self,fname1,fname2,fname3):
 		self.firstOutputFile = open(fname1, "w")
 		self.secondOutputFile = open(fname2, "w")
+		self.thirdOutputFile = open(fname3, "w")
 
 	'''
 		Read the files into respective lists
@@ -75,34 +78,36 @@ class PersonalityOperations(object):
 	def combineUserDataAndResponses(self):
 		#userid, states file
 		count=0
-		for uLine in self.userLines:							
+		for uLine in self.userLines:								
 			userList=uLine.split(",")
-			#do nothing if state is null
-			if userList[1] != '\n':	
+			#do nothing if state is null or DC or PR
+			if userList[1] != '\n':
 				print userList
-				gfgid, state = userList[0].replace("\"", ""), userList[1].replace("\n", "").replace("\"", "")					
-				self.userDict[gfgid] = {'state' : state}				# append an object to dictionary
-				#userid, questionid, answer file
-				for rLine in self.respLines:						
-					respList = rLine.split(",")
-					if(userList[0] == respList[0]):
-						q_no, ans = respList[1].replace("\"", ""), respList[2].replace("\n", "").replace("\"", "")
-						if ans == 'Disagree strongly':
-							ans = 1
-						elif ans == 'Disagree a little':
-							ans = 2
-						elif ans == 'Neither agree':	#neutral
-							ans = 3
-						elif ans == 'Agree a little':
-							ans = 4
-						elif ans == 'Agree strongly':
-							ans = 5
-						else:	# question#45 is feedback and does not need to be replaced
-							ans = str(ans)
-						#print "After conversion  --> ",q_no," --", ans
-						if gfgid in self.userDict:
-							#if key found in userDict dictionary
-							self.userDict[gfgid][q_no]=ans
+				gfgid, state = userList[0].replace("\"", ""), userList[1].replace("\n", "").replace("\"", "")	
+				if state!= 'PR' or state!='DC':
+
+					self.userDict[gfgid] = {'state' : state}				# append an object to dictionary
+					#userid, questionid, answer file
+					for rLine in self.respLines:						
+						respList = rLine.split(",")
+						if(userList[0] == respList[0]):
+							q_no, ans = respList[1].replace("\"", ""), respList[2].replace("\n", "").replace("\"", "")
+							if ans == 'Disagree strongly':
+								ans = 1
+							elif ans == 'Disagree a little':
+								ans = 2
+							elif ans == 'Neither agree':	#neutrals
+								ans = 3
+							elif ans == 'Agree a little':
+								ans = 4
+							elif ans == 'Agree strongly':
+								ans = 5
+							else:	# question#45 is feedback and does not need to be replaced
+								ans = str(ans)
+							#print "After conversion  --> ",q_no," --", ans
+							if gfgid in self.userDict:
+								#if key found in userDict dictionary
+								self.userDict[gfgid][q_no]=ans
 			# Calculate O,C,E,A,N values after this point and add those (key,value) pairs to the nested dictionary
 			# Only then move to the next user
 			try:
@@ -235,24 +240,57 @@ class PersonalityOperations(object):
 		print "----------------------------------------"	
 		print self.statewiseDict
 
+	'''
+		Convert to .json format for US MAP
+	'''
+	def jsonConvert1(self):
+		m = self.statewiseDict
+		for each in m:
+			for every in m[each]:
+				s = str(m[each][every])
+				self.m[each][every] = s
+
+		self.jsonString = str(m).replace("'", "\"")
+
+
+	'''
+		Convert to .json format for amcharts
+	'''
+	def jsonConvert2(self):
+		for each in self.statewiseDict:
+			d2 = {}
+			d2['state'] = each
+			for every in self.statewiseDict[each]:
+				d2['O'] = self.statewiseDict[each]['O']
+				d2['C'] = self.statewiseDict[each]['C']
+				d2['E'] = self.statewiseDict[each]['E']
+				d2['A'] = self.statewiseDict[each]['A']
+				d2['N'] = self.statewiseDict[each]['N']
+			amlist.append(d2)
+
+		print "AMLISt is - ", amlist
+				
 
 	'''
 		Write userDict to the file "user_dict.txt"
 	'''		
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
-		self.secondOutputFile.write(str(self.statewiseDict))
+		self.secondOutputFile.write(jsonString)
+		self.thirdOutputFile.write(str(amlist))
 
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
 	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv")
-	Po.writeFile("user_dict.txt", "crunched_dict.txt")
+	Po.writeFile("user_dict.txt", "final.json")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.cleanDict()
 	Po.crunchStateDict()
+	Po.jsonConvert1()	#FOR us map
+	Po.jsonConvert2()	#For Amcharts
 	Po.writeToFile()
 else:
 	print "Wrong module imported."
