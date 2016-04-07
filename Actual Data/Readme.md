@@ -33,3 +33,5 @@ R - Reverse Score: Reverse scoring means that the numerical scoring scale runs i
 #####Neuroticism: 4, 9R, 14, 19, 24R, 29, 34R, 39
 #####Openness: 5, 10, 15, 20, 25, 30, 35R, 40, 41R, 44 
 
+## PersonalityOperations.py
+
