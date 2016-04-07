@@ -21,7 +21,11 @@ This python script is responsible for cleaning, processing and crunching the dat
  - **crunchStateDict()**: This function crunches the *stateDict* data into more JSON-specific format imperative to visualizations. 
     - ```statewiseDict = { 'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}, 'state2':{}, 'state3:{}.... }```
  - **usJSON()**: Convert *statewiseDict* into JSON format as required by the US Map API. 
+    - ```openString = [{"openness": 3.86, "state": "WA", "fillKey": "LOW"}, {"openness": 3.94, "state": "VA", "fillKey": "LOW"}...]```
+    - dumped into **openness.json**
  - **amchartJSON()**: Convert *statewiseDict* into JSON format as required by the AmCHarts API. 
+    - ```{ "WA": {"A": "3.72", "C": "3.62", "E": "2.94", "O": "3.86", "N": "3.19"}, "VA": {"A": "3.76", "C": "3.74", "E": "2.93", "O": "3.94", "N": "3.16"},..........} ``` 
+    - dumped into **final.json**
 
 ##Formulae for Personality
 Computing simple BFI Scale Scores-
