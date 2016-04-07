@@ -8,7 +8,12 @@ This python script is responsible for cleaning, processing and crunching the dat
  - **readintoList()**: Read the opened files into respective lists.
  - **closeFile()**: Close all the files currently open.
  - **reverse()**: Compute the reverse score. 
- - **combineUserDataAndResponses()**: 
+ - **combineUserDataAndResponses()**: This is a very crucial and dense function-
+     - loops through the "gfg_users_states.csv" file, "gfg_personality_survey_responses.csv" file and merges into a specific format. 
+     - computes the O,C,E,A,N values(formulae below) and create *userDict* dictionary
+     - checks for inconsistent data & sets the *corrupt* flag if needed
+     - loops through ""gfg_users_gender_age_state.csv" and cleans it. Merges it with *userDict*.
+     - ```userDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40", 1:2, 2:2, 3:5 .... 44:1}, gfgid2:{}, gfgid3: {}.... }```
 
 ##Formulae for Personality
 Computing simple BFI Scale Scores-
