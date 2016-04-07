@@ -13,7 +13,13 @@ This python script is responsible for cleaning, processing and crunching the dat
      - computes the O,C,E,A,N values(formulae below) and create *userDict* dictionary
      - checks for inconsistent data & sets the *corrupt* flag if needed
      - loops through ""gfg_users_gender_age_state.csv" and cleans it. Merges it with *userDict*.
-     - ```userDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40", 1:2, 2:2, 3:5 .... 44:1}, gfgid2:{}, gfgid3: {}.... }```
+     - ```userDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40", 1:2, 2:2, 3:5 .... 44:1, O:_ , C:_, E:_, A:_, N:_}, gfgid2:{}, gfgid3: {}.... }```
+     - *userDict* dictionary is dumped into **user_dict.txt**
+ - **cleanDict()**: Returns a list of all gfgid's with *corrupt*=1
+ - **relevantDict()**: Returns the *stateDict* which is a condensed version of *userDict*. It is in the following format-
+     - ```stateDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40",O:_ , C:_, E:_, A:_, N:_}, gfgid2:{}, gfgid3: {}.... }```
+ - **crunchStateDict()**: This function crunches the *stateDict* data into more JSON-specific format imperative to visualizations. 
+    - 
 
 ##Formulae for Personality
 Computing simple BFI Scale Scores-
