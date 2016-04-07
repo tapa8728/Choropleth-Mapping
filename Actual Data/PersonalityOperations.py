@@ -1,6 +1,5 @@
 import operator
 import collections
-import numpy
 
 class PersonalityOperations(object):
 	'''
@@ -12,6 +11,7 @@ class PersonalityOperations(object):
 	def __init__(self):
 		self.userData = None
 		self.respData = None
+		self.genAgeData = None
 		self.userDict = {}	
 		self.stateDict = {}		#state, OCEAN
 		self.statewiseDict ={}  #state:[OCEAN]
@@ -24,9 +24,10 @@ class PersonalityOperations(object):
 	'''
 		Open and read "gfg_users_states.csv" & "gfg_personality_survey_responses.csv"
 	'''	
-	def readFile(self,fname1,fname2):
+	def readFile(self,fname1,fname2,fname3):
 		self.userData = open(fname1, "r")	
 		self.respData = open(fname2, "r")
+		self.genAgeData = open(fname3, "r")
 
 	'''
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
@@ -44,6 +45,7 @@ class PersonalityOperations(object):
 	def readintoList(self):
 		self.userLines = self.userData.readlines()
 		self.respLines = self.respData.readlines()
+		self.genAgeLines = self.genAgeData.readlines()
 
 	'''
 		Close the opened files.
@@ -51,6 +53,7 @@ class PersonalityOperations(object):
 	def closeFile(self):
 		userData.close()
 		respData.close()
+		genAgeData.close()
 
 	'''
 		Function R(Reverse Scoring) implemented to compute the O,C,E,A,N formulae
@@ -78,16 +81,14 @@ class PersonalityOperations(object):
 		
 	''' 
 	def combineUserDataAndResponses(self):
-		#userid, states file
-		count=0
+		# loop through states and gender,age files
 		for uLine in self.userLines:								
 			userList=uLine.split(",")
 			#do nothing if state is null or DC or PR
-			if userList[1] != '\n':
-				print userList
+			if userList[1] != '\n' :
+				print "--> ", userList
 				gfgid, state = userList[0].replace("\"", ""), userList[1].replace("\n", "").replace("\"", "")	
 				if state!= 'PR' or state!='DC':
-
 					self.userDict[gfgid] = {'state' : state}				# append an object to dictionary
 					#userid, questionid, answer file
 					for rLine in self.respLines:						
@@ -142,11 +143,44 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			# print ""
-			# print "######### ", self.userDict
-			# if( gfgid == "27"):
-			#  	break
-		
+			
+			if( gfgid == "27"):
+			 	break
+
+
+		#Add gender,age data as well
+		for l in self.genAgeLines:
+			lis = l.split(",")
+			#print "lis -------", lis
+			gfgid, gen, age, state = lis[0], lis[1], lis[2], lis[3].replace("\n", "")
+			if gfgid in self.userDict:
+				print "First match"
+				if gen =="" or state == "" or age == "":	#weed out inconsistent values
+					pass
+				elif state == self.userDict[gfgid]['state']:	#if the state matches
+					self.userDict[gfgid]['gender'] = gen
+					self.userDict[gfgid]['age'] = age 
+		print "######### ", self.userDict
+
+	
+	'''
+		Create a new dictionary with only state and OCEAN values 
+		{'gfgid':{'state: 'MI', 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
+	'''
+	def relevantDict(self):
+		for k in self.userDict:
+			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
+				self.stateDict[k] = {}
+				self.stateDict[k]['state'] = self.userDict[k]['state']	
+				self.stateDict[k]['gender'] = self.userDict[k]['gender']
+				self.stateDict[k]['age'] = self.userDict[k]['age']
+				self.stateDict[k]['O'] = self.userDict[k]['O']
+				self.stateDict[k]['C'] = self.userDict[k]['C']
+				self.stateDict[k]['E'] = self.userDict[k]['E']
+				self.stateDict[k]['A'] = self.userDict[k]['A']	
+				self.stateDict[k]['N'] = self.userDict[k]['N']	
+
+		print "State dictionary is --------------- ", self.stateDict
 
 	'''
 		Weed out all the users with a set corrupt flag
@@ -158,23 +192,6 @@ class PersonalityOperations(object):
 				cList.append(k)
 				
 		#print "List of corrupt gfgid is - ", cList	
-
-	'''
-		Create a new dictionary with only state and OCEAN values 
-		{'gfgid':{'state: 'MI', 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
-	'''
-	def relevantDict(self):
-		for k in self.userDict:
-			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
-				self.stateDict[k] = {}
-				self.stateDict[k]['state'] = self.userDict[k]['state']	
-				self.stateDict[k]['O'] = self.userDict[k]['O']
-				self.stateDict[k]['C'] = self.userDict[k]['C']
-				self.stateDict[k]['E'] = self.userDict[k]['E']
-				self.stateDict[k]['A'] = self.userDict[k]['A']	
-				self.stateDict[k]['N'] = self.userDict[k]['N']	
-
-		print "State dictionary is --------------- ", self.stateDict
 
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
@@ -234,7 +251,7 @@ class PersonalityOperations(object):
 				self.statewiseDict[each[0]]['A'].append(each[4])
 				self.statewiseDict[each[0]]['N'].append(each[5])
 
-		# Compute avergage for each state
+		# Compute average for each state
 		for i,each in enumerate(self.statewiseDict.values()):
 			for every in each.keys():
 				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 2) if len(every)!=0 else 0
@@ -245,7 +262,7 @@ class PersonalityOperations(object):
 	'''
 		Convert to .json format for US MAP
 	'''
-	def jsonConvert1(self):
+	def usJSON(self):
 		m = self.statewiseDict
 		# add the color range
 		# Openness
@@ -270,8 +287,6 @@ class PersonalityOperations(object):
 		self.openString = str(openlist).replace("'", "\"")
 		print "Openness JSON -------------", self.openString
 
-
-
 		#convert the values to strings - no color information
 		for each in m:
 			for every in m[each]:
@@ -284,7 +299,7 @@ class PersonalityOperations(object):
 	'''
 		Convert to .json format for AmCharts
 	'''
-	def jsonConvert2(self):
+	def amchartJSON(self):
 		for each in self.statewiseDict:
 			d2 = {}
 			d2['state'] = each
@@ -311,15 +326,15 @@ class PersonalityOperations(object):
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
-	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv")
+	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv", "gfg_users_gender_age_state.csv")
 	Po.writeFile("user_dict.txt", "final.json", "amcharts.json", "openness.json")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.cleanDict()
 	Po.crunchStateDict()
-	Po.jsonConvert1()	#FOR us map
-	Po.jsonConvert2()	#For Amcharts
+	Po.usJSON()	#FOR us map
+	Po.amchartJSON()	#For Amcharts
 	Po.writeToFile()
 else:
 	print "Wrong module imported."
