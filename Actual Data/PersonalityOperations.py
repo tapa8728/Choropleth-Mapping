@@ -147,7 +147,6 @@ class PersonalityOperations(object):
 			if( gfgid == "27"):
 			 	break
 
-
 		#Add gender,age data as well
 		for l in self.genAgeLines:
 			lis = l.split(",")
@@ -160,19 +159,24 @@ class PersonalityOperations(object):
 				elif state == self.userDict[gfgid]['state']:	#if the state matches
 					self.userDict[gfgid]['gender'] = gen
 					self.userDict[gfgid]['age'] = age 
-		print "######### ", self.userDict
+		print "######### userDict", self.userDict
 
 	
-	'''
+	'''	
+		Male=0, Female=1
 		Create a new dictionary with only state and OCEAN values 
-		{'gfgid':{'state: 'MI', 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
+		{'gfgid':{'state': 'MI', 'gender':1/0, 'age':40, 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
 	'''
 	def relevantDict(self):
 		for k in self.userDict:
 			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
 				self.stateDict[k] = {}
 				self.stateDict[k]['state'] = self.userDict[k]['state']	
-				self.stateDict[k]['gender'] = self.userDict[k]['gender']
+				if self.userDict[k]['gender']=='male':
+					self.stateDict[k]['gender'] = 0	#male
+				else:
+					self.stateDict[k]['gender'] = 1 #female
+
 				self.stateDict[k]['age'] = self.userDict[k]['age']
 				self.stateDict[k]['O'] = self.userDict[k]['O']
 				self.stateDict[k]['C'] = self.userDict[k]['C']
@@ -180,7 +184,7 @@ class PersonalityOperations(object):
 				self.stateDict[k]['A'] = self.userDict[k]['A']	
 				self.stateDict[k]['N'] = self.userDict[k]['N']	
 
-		print "State dictionary is --------------- ", self.stateDict
+		print "StateDict is --------------- ", self.stateDict
 
 	'''
 		Weed out all the users with a set corrupt flag
@@ -192,6 +196,10 @@ class PersonalityOperations(object):
 				cList.append(k)
 				
 		#print "List of corrupt gfgid is - ", cList	
+
+	'''
+		Linear Regression applied on stateDict
+	'''
 
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
@@ -256,7 +264,7 @@ class PersonalityOperations(object):
 			for every in each.keys():
 				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 2) if len(every)!=0 else 0
 		
-		print "----------------------------------------"	
+		print "StatewiseDict ----------------------------------------"	
 		print self.statewiseDict
 
 	'''
@@ -272,8 +280,6 @@ class PersonalityOperations(object):
 			do['state'] = each
 			for every in m[each]:
 				do['openness'] = m[each]['O']
-				do['gender'] = m[each]['gender']
-				do['age'] = m[each]['age']
 				if 0 <= do['openness'] < 100:
 					do['fillKey'] = 'LOW'
 				elif 100 <= do['openness'] < 250:
@@ -311,8 +317,6 @@ class PersonalityOperations(object):
 				d2['E'] = self.statewiseDict[each]['E']
 				d2['A'] = self.statewiseDict[each]['A']
 				d2['N'] = self.statewiseDict[each]['N']
-				d2['age'] = self.statewiseDict[each]['age']
-				d2['gender'] = self.statewiseDict[each]['gender']
 			self.amlist.append(d2)
 
 		print "Amcharts JSON ------------- ", str(self.amlist).replace("'", "\"")
