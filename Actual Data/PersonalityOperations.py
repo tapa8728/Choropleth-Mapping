@@ -272,6 +272,8 @@ class PersonalityOperations(object):
 			do['state'] = each
 			for every in m[each]:
 				do['openness'] = m[each]['O']
+				do['gender'] = m[each]['gender']
+				do['age'] = m[each]['age']
 				if 0 <= do['openness'] < 100:
 					do['fillKey'] = 'LOW'
 				elif 100 <= do['openness'] < 250:
@@ -309,6 +311,8 @@ class PersonalityOperations(object):
 				d2['E'] = self.statewiseDict[each]['E']
 				d2['A'] = self.statewiseDict[each]['A']
 				d2['N'] = self.statewiseDict[each]['N']
+				d2['age'] = self.statewiseDict[each]['age']
+				d2['gender'] = self.statewiseDict[each]['gender']
 			self.amlist.append(d2)
 
 		print "Amcharts JSON ------------- ", str(self.amlist).replace("'", "\"")
