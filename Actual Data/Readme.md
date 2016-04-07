@@ -19,7 +19,9 @@ This python script is responsible for cleaning, processing and crunching the dat
  - **relevantDict()**: Returns the *stateDict* which is a condensed version of *userDict*. It is in the following format-
      - ```stateDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40",O:_ , C:_, E:_, A:_, N:_}, gfgid2:{}, gfgid3: {}.... }```
  - **crunchStateDict()**: This function crunches the *stateDict* data into more JSON-specific format imperative to visualizations. 
-    - 
+    - ```statewiseDict = { 'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}, 'state2':{}, 'state3:{}.... }```
+ - **usJSON()**: Convert *statewiseDict* into JSON format as required by the US Map API. 
+ - **amchartJSON()**: Convert *statewiseDict* into JSON format as required by the AmCHarts API. 
 
 ##Formulae for Personality
 Computing simple BFI Scale Scores-
