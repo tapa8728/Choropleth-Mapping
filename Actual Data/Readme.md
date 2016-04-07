@@ -38,4 +38,4 @@ gfgid, state
 gfgid, gender, age_range, state
 
 ## PersonalityOperations.py
-This python script is responsible for generating
+This python script is responsible for cleaning, processing and crunching the data from the above 4 data sources into customized JSON files for personality visualizations. Many intermediary files are generated in various functions and are saved. Each of the functions, their input & outut formats are listed below. 
