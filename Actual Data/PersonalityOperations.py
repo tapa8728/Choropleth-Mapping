@@ -40,6 +40,7 @@ class PersonalityOperations(object):
 		self.thirdOutputFile = open(fname3, "w")
 		self.fourthOuputFile = open(fname4, "w")
 		self.fifthOuputFile = open(fname5, "w")
+
 	'''
 		Read the files into respective lists
 	'''
@@ -144,8 +145,7 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			
-			if( gfgid == "27"):
+			if( gfgid == "410"):
 			 	break
 
 		#Add gender,age data as well
@@ -203,14 +203,12 @@ class PersonalityOperations(object):
 	'''
 	def linearReg(self):
 		# convert the stateDict.json file into a csv file - id, state, gender, age, O, C, E, A, N
-		with open('stateDict.csv', 'wb') as fout:
-		    csvout = csv.writer(fout)
-		    for k, v in self.stateDict.iteritems():
-		    	for every in self.stateDict[k]:
-		        	#csvout.writerow( every['state'] + every['gender'] + int(every['age']) + every['O'] + every['C'] +every['E'] + every['A'] + every['N'])
-		        	csvout.writerow( [every['age']] )
-
-
+		fout = open('stateDict.csv', 'wb')
+		csvout = csv.writer(fout)
+		csvout.writerow(["id"] +["state"] + ["gender"] + ["age"] + ["O"] + ["C"] +["E"] + ["A"]+ ["N"])
+		for k, v in self.stateDict.iteritems():
+			csvout.writerow([k] + [v['state']] + [v['gender']] + [v['age']] + [v['O']] +[v['C']] + [v['E']] +[v['A']] + [v['N']])
+ 	
 
 
 	'''
@@ -352,8 +350,8 @@ if __name__== "__main__":
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
-	# Po.linearReg()
-	# exit()
+	Po.linearReg()
+	exit()
 	Po.cleanDict()
 	Po.crunchStateDict()
 	Po.usJSON()	#FOR us map
