@@ -99,8 +99,6 @@
                 graph2.balloonText = "<i>[[category]]</i> C: <b>[[value]]</b>";
                 chart.addGraph(graph2);
 
-                
-
                 // fourth graph
                 var graph2 = new AmCharts.AmGraph();
                 graph2.title = "Agreeableness";
@@ -109,7 +107,9 @@
                 graph2.lineAlpha = 0;
                 graph2.lineColor = "#ff6583";
                 graph2.fillAlphas = 1;
+
                 graph2.balloonText = "<i>[[category]]</i> A: <b>[[value]]</b>";
+
                 chart.addGraph(graph2);
 
                 // fifth graph
@@ -120,7 +120,7 @@
                 graph2.lineAlpha = 0;
                 graph2.lineColor = "#AA00FF";
                 graph2.fillAlphas = 1;
-                graph2.balloonText = "<i>[[category]]</i> N: <b>[[value]]</b>";
+               graph2.balloonText = "<i>[[category]]</i> N: <b>[[value]]</b>";
                 chart.addGraph(graph2);
 
                 chart.write("chartdiv");
@@ -129,7 +129,9 @@
     </head>
 
     <body style="background-color:#000000;">
+
         <center><h1 style="color:grey"> Stacked 3D Bar - O C E A N </h1></center>
+
         <div id="chartdiv" style="width: 100%; height: 800px;"></div>
     </body>
 
