@@ -1,5 +1,6 @@
 import operator
 import collections
+import csv
 
 class PersonalityOperations(object):
 	'''
@@ -200,6 +201,17 @@ class PersonalityOperations(object):
 	'''
 		Linear Regression applied on stateDict
 	'''
+	def linearReg(self):
+		# convert the stateDict.json file into a csv file - id, state, gender, age, O, C, E, A, N
+		with open('stateDict.csv', 'wb') as fout:
+		    csvout = csv.writer(fout)
+		    for k, v in self.stateDict.iteritems():
+		    	for every in self.stateDict[k]:
+		        	#csvout.writerow( every['state'] + every['gender'] + int(every['age']) + every['O'] + every['C'] +every['E'] + every['A'] + every['N'])
+		        	csvout.writerow( [every['age']] )
+
+
+
 
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
@@ -340,6 +352,8 @@ if __name__== "__main__":
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
+	# Po.linearReg()
+	# exit()
 	Po.cleanDict()
 	Po.crunchStateDict()
 	Po.usJSON()	#FOR us map
