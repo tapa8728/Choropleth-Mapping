@@ -33,12 +33,12 @@ class PersonalityOperations(object):
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
 		O,C,E,A,N values computed for each gfgid
 	'''
-	def writeFile(self,fname1,fname2,fname3,fname4):
+	def writeFile(self,fname1,fname2,fname3,fname4,fname5):
 		self.firstOutputFile = open(fname1, "w")
 		self.secondOutputFile = open(fname2, "w")
 		self.thirdOutputFile = open(fname3, "w")
 		self.fourthOuputFile = open(fname4, "w")
-
+		self.fifthOuputFile = open(fname5, "w")
 	'''
 		Read the files into respective lists
 	'''
@@ -330,12 +330,13 @@ class PersonalityOperations(object):
 		self.secondOutputFile.write(self.jsonString)
 		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
 		self.fourthOuputFile.write(self.openString)
+		self.fifthOuputFile.write(str(self.stateDict).replace("'", "\""))	#data for linear regression
 
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
 	Po.readFile("gfg_users_states.csv","gfg_personality_survey_responses.csv", "gfg_users_gender_age_state.csv")
-	Po.writeFile("user_dict.txt", "final.json", "amcharts.json", "openness.json")
+	Po.writeFile("user_dict.txt","final.json", "amcharts.json", "openness.json", "stateDict.json")
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
