@@ -4,11 +4,9 @@ dic = {'10': {'A': 4.33, 'C': 4.89, 'E': 2.0, 'gender': 1, 'age': '40', 'O': 4.3
 
 
 # convert the stateDict.json file into a csv file - id, state, gender, age, O, C, E, A, N
-with open('stateDict.csv', 'wb') as fout:
-    csvout = csv.writer(fout)
-    for k, v in dic.iteritems():
-    	#csvout.writerow( every['state'] + every['gender'] + int(every['age']) + every['O'] + every['C'] +every['E'] + every['A'] + every['N'])
-        csvout.writerow([k] + [v['gender']])
-     	# print "key is - ", k
-     	# print "value is - ", v
-
+fout = open('stateDict.csv', 'wb')
+csvout = csv.writer(fout)
+csvout.writerow(["id"] +["state"] + ["gender"] + ["age"] + ["O"] + ["C"] +["E"] + ["A"]+ ["N"])
+for k, v in dic.iteritems():
+	csvout.writerow([k] + [v['state']] + [v['gender']] + [v['age']] + [v['O']] +[v['C']] + [v['E']] +[v['A']] + [v['N']])
+ 	
