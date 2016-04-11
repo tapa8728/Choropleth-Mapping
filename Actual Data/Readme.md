@@ -18,6 +18,8 @@ This python script is responsible for cleaning, processing and crunching the dat
  - **cleanDict()**: Returns a list of all gfgid's with *corrupt*=1
  - **relevantDict()**: Returns the *stateDict* which is a condensed version of *userDict*. It is in the following format-
      - ```stateDict = { gfgid1 :{state: "AB", corrupt: 0, gender: "1/0", age-range: "40",O:_ , C:_, E:_, A:_, N:_}, gfgid2:{}, gfgid3: {}.... }```
+ - **flagState_20()**:Set a flag "below" to 1 if a particular state has < 20 participants and append flag to *stateDict*
+ - **csvforR()**: Convert the *stateDict* into a csv file for appliying the R functions
  - **crunchStateDict()**: This function crunches the *stateDict* data into more JSON-specific format imperative to visualizations. 
     - ```statewiseDict = { 'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}, 'state2':{}, 'state3:{}.... }```
  - **usJSON()**: Convert *statewiseDict* into JSON format as required by the US Map API. 
