@@ -223,16 +223,18 @@ class PersonalityOperations(object):
 		#print "List of corrupt gfgid is - ", cList	
 
 	'''
-		Linear Regression applied on stateDict
+		Convert stateDict into a .csv file
 	'''
-	def linearReg(self):
+	def csvforR(self):
 		# convert the stateDict.json file into a csv file - id, state, gender, age, O, C, E, A, N
 		fout = open('stateDict.csv', 'wb')
 		csvout = csv.writer(fout)
 		csvout.writerow(["id"] +["state"] + ["gender"] + ["age"] + ["O"] + ["C"] +["E"] + ["A"]+ ["N"])
 		for k, v in self.stateDict.iteritems():
 			csvout.writerow([k] + [v['state']] + [v['gender']] + [v['age']] + [v['O']] +[v['C']] + [v['E']] +[v['A']] + [v['N']])
- 
+ 		# Can we embed a R script here?
+
+
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
 		{'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}}
@@ -372,7 +374,7 @@ if __name__== "__main__":
 	Po.readintoList()
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
-	Po.linearReg()
+	Po.csvforR()
 	# Po.cleanDict()
 	# Po.crunchStateDict()
 	# Po.usJSON()	#FOR us map
