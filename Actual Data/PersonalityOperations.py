@@ -145,8 +145,8 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			if( gfgid == "4129"):
-			 	break
+			# if( gfgid == "4129"):
+			#  	break
 
 		#Add gender,age data as well
 		for l in self.genAgeLines:
@@ -155,15 +155,15 @@ class PersonalityOperations(object):
 			gfgid, gen, age, state = lis[0], lis[1], lis[2], lis[3].replace("\n", "")
 			if gfgid in self.userDict:
 				if gen =="" or state == "" or age == "":	#weed out inconsistent values
-					pass
+					self.userDict[gfgid]['corrupt'] = 1 	#set that gfgid to corrupt as well coz no gender,age info wil be added for it 
 				elif state == self.userDict[gfgid]['state']:	#if the state matches
 					if gen == "male":
 						self.userDict[gfgid]['gender'] = 0
 					else:
 						self.userDict[gfgid]['gender'] = 1
 					self.userDict[gfgid]['age'] = age 
-		print "######### userDict", self.userDict
-
+		#print "######### userDict", self.userDict
+		print "userDict generated"
 	
 	'''	
 		Male=0, Female=1
@@ -172,22 +172,31 @@ class PersonalityOperations(object):
 	'''
 	def relevantDict(self):
 		for k in self.userDict:
-			if self.userDict[k]['corrupt'] == 0 :	#only thse entires that are not corrupted
-				if self.userDict[k]['gender'] ==0 or self.userDict[k]['gender']==1:
-					self.stateDict[k] = {}
-					self.stateDict[k]['state'] = self.userDict[k]['state']	
-					self.stateDict[k]['gender']= self.userDict[k]['gender']
-					self.stateDict[k]['age'] = self.userDict[k]['age']
-					self.stateDict[k]['O'] = self.userDict[k]['O']
-					self.stateDict[k]['C'] = self.userDict[k]['C']
-					self.stateDict[k]['E'] = self.userDict[k]['E']
-					self.stateDict[k]['A'] = self.userDict[k]['A']	
-					self.stateDict[k]['N'] = self.userDict[k]['N']	
+			try:
+				if self.userDict[k]['corrupt'] == 0 :	#only thse entires that are not corrupted
+					if self.userDict[k]['gender']==0 or self.userDict[k]['gender']==1:
+						self.stateDict[k] = {}
+						self.stateDict[k]['state'] = self.userDict[k]['state']	
+						self.stateDict[k]['gender']= self.userDict[k]['gender']
+						self.stateDict[k]['age'] = self.userDict[k]['age']
+						self.stateDict[k]['O'] = self.userDict[k]['O']
+						self.stateDict[k]['C'] = self.userDict[k]['C']
+						self.stateDict[k]['E'] = self.userDict[k]['E']
+						self.stateDict[k]['A'] = self.userDict[k]['A']	
+						self.stateDict[k]['N'] = self.userDict[k]['N']	
+					else:
+						pass
 				else:
 					pass
-			else:
-				pass
-		print "StateDict is --------------- ", self.stateDict
+			except KeyError, e:	# Incase value(s) is missing for a "gfgid", delete it from the dictionary
+			    print 'I got a KeyError - reason "%s"' % str(e)
+			    self.userDict[k]['corrupt']	= 1
+			except:
+			    print 'I got another exception, but I should re-raise'
+			    raise
+
+		#print "StateDict is --------------- ", self.stateDict
+		print "Finally end of relevantDict"
 
 	'''
 		Weed out all the users with a set corrupt flag
