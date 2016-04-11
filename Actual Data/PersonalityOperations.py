@@ -145,7 +145,7 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			if( gfgid == "410"):
+			if( gfgid == "4129"):
 			 	break
 
 		#Add gender,age data as well
@@ -154,11 +154,13 @@ class PersonalityOperations(object):
 			#print "lis -------", lis
 			gfgid, gen, age, state = lis[0], lis[1], lis[2], lis[3].replace("\n", "")
 			if gfgid in self.userDict:
-				print "First match"
 				if gen =="" or state == "" or age == "":	#weed out inconsistent values
 					pass
 				elif state == self.userDict[gfgid]['state']:	#if the state matches
-					self.userDict[gfgid]['gender'] = gen
+					if gen == "male":
+						self.userDict[gfgid]['gender'] = 0
+					else:
+						self.userDict[gfgid]['gender'] = 1
 					self.userDict[gfgid]['age'] = age 
 		print "######### userDict", self.userDict
 
@@ -170,21 +172,21 @@ class PersonalityOperations(object):
 	'''
 	def relevantDict(self):
 		for k in self.userDict:
-			if self.userDict[k]['corrupt'] == 0:	#only thse entires that are not corrupted
-				self.stateDict[k] = {}
-				self.stateDict[k]['state'] = self.userDict[k]['state']	
-				if self.userDict[k]['gender']=='male':
-					self.stateDict[k]['gender'] = 0	#male
+			if self.userDict[k]['corrupt'] == 0 :	#only thse entires that are not corrupted
+				if self.userDict[k]['gender'] ==0 or self.userDict[k]['gender']==1:
+					self.stateDict[k] = {}
+					self.stateDict[k]['state'] = self.userDict[k]['state']	
+					self.stateDict[k]['gender']= self.userDict[k]['gender']
+					self.stateDict[k]['age'] = self.userDict[k]['age']
+					self.stateDict[k]['O'] = self.userDict[k]['O']
+					self.stateDict[k]['C'] = self.userDict[k]['C']
+					self.stateDict[k]['E'] = self.userDict[k]['E']
+					self.stateDict[k]['A'] = self.userDict[k]['A']	
+					self.stateDict[k]['N'] = self.userDict[k]['N']	
 				else:
-					self.stateDict[k]['gender'] = 1 #female
-
-				self.stateDict[k]['age'] = self.userDict[k]['age']
-				self.stateDict[k]['O'] = self.userDict[k]['O']
-				self.stateDict[k]['C'] = self.userDict[k]['C']
-				self.stateDict[k]['E'] = self.userDict[k]['E']
-				self.stateDict[k]['A'] = self.userDict[k]['A']	
-				self.stateDict[k]['N'] = self.userDict[k]['N']	
-
+					pass
+			else:
+				pass
 		print "StateDict is --------------- ", self.stateDict
 
 	'''
@@ -208,9 +210,7 @@ class PersonalityOperations(object):
 		csvout.writerow(["id"] +["state"] + ["gender"] + ["age"] + ["O"] + ["C"] +["E"] + ["A"]+ ["N"])
 		for k, v in self.stateDict.iteritems():
 			csvout.writerow([k] + [v['state']] + [v['gender']] + [v['age']] + [v['O']] +[v['C']] + [v['E']] +[v['A']] + [v['N']])
- 	
-
-
+ 
 	'''
 		Create a new dictionary with statewise OCEAN values. Multiple values can be put into a list 
 		{'state':{'O':[3], 'C':[5], 'E':[6], 'A':[7], 'N':[2]'}}
@@ -337,10 +337,10 @@ class PersonalityOperations(object):
 	'''		
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
-		self.secondOutputFile.write(self.jsonString)
-		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
-		self.fourthOuputFile.write(self.openString)
-		self.fifthOuputFile.write(str(self.stateDict).replace("'", "\""))	#data for linear regression
+		# self.secondOutputFile.write(self.jsonString)
+		# self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
+		# self.fourthOuputFile.write(self.openString)
+		# self.fifthOuputFile.write(str(self.stateDict).replace("'", "\""))	#data for linear regression
 
 
 if __name__== "__main__":
@@ -351,11 +351,10 @@ if __name__== "__main__":
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.linearReg()
-	exit()
-	Po.cleanDict()
-	Po.crunchStateDict()
-	Po.usJSON()	#FOR us map
-	Po.amchartJSON()	#For Amcharts
+	# Po.cleanDict()
+	# Po.crunchStateDict()
+	# Po.usJSON()	#FOR us map
+	# Po.amchartJSON()	#For Amcharts
 	Po.writeToFile()
 else:
 	print "Wrong module imported."
