@@ -203,7 +203,7 @@ class PersonalityOperations(object):
 			    raise
 
 		print "StateDict is --------------- ", self.stateDict
-		print "Finally end of relevantDict"
+		print "End of relevantDict()"
 
 	'''
 		Set a flag "below" to 1 if a particular state has < 20 participants
@@ -231,6 +231,7 @@ class PersonalityOperations(object):
 
 		print "stateDict after adding below flag is ----"
 		print self.stateDict
+		print "End of flagState_20()"
 
 	'''
 		Weed out all the users with a set corrupt flag
