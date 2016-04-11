@@ -9,3 +9,7 @@ myvars = c("age", "gender", "O")
 data2 = filecsv[myvars]
 
 print(summary(data2))
+
+results = lm(O ~ age + gender, data=data2)
+
+print(results)
