@@ -228,8 +228,15 @@ class PersonalityOperations(object):
 		for k,v  in state_count.iteritems():
 			print "State is ",k ," and value is-", v
 
+		for k,v in self.stateDict.iteritems():
+			st = v['state']
+			if state_count[st] < 20:
+				v['below'] = 1
+			else:
+				v['below'] = 0
 
-
+		print "stateDict after adding below flag is ----"
+		print self.stateDict
 
 	'''
 		Weed out all the users with a set corrupt flag
