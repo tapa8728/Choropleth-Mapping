@@ -154,7 +154,7 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			if( gfgid == "261"):
+			if( gfgid == "1062"):
 			 	break
 
 		#Add gender,age data as well
@@ -207,7 +207,7 @@ class PersonalityOperations(object):
 			except:
 			    print 'I got another exception, but I should re-raise'
 			    raise
-		#print "StateDict is --------------- ", self.stateDict
+		print "StateDict is --------------- ", self.stateDict
 		print " >>>> End of relevantDict()"
 
 	'''
@@ -250,7 +250,7 @@ class PersonalityOperations(object):
 		for line in zLines[1:]:
 			zList=line.split(",")
 			#78, "OR" , 1,40, 3.2, 4.11, 2.38, 4.67, 1.88, -1.01592200338132,0.450660347883958,-0.965335669598581,1.56545378887604,-1.53549226343548
-			gfgid, state = zList[0], zList[1]
+			gfgid, state = zList[0], zList[1].replace("\"", "")
 			z_o, z_c, z_e, z_a, z_n = zList[9], zList[10], zList[11], zList[12], zList[13].replace("\n", "")
 			self.zStateDict[gfgid] = {}
 			self.zStateDict[gfgid]['state'] = state
@@ -260,8 +260,8 @@ class PersonalityOperations(object):
 			self.zStateDict[gfgid]['A'] = round(float(z_a), 4)
 			self.zStateDict[gfgid]['N'] = round(float(z_n), 4)
 
-		#print "zStateDict -----"
-		#print self.zStateDict
+		# print "zStateDict -----"
+		# print self.zStateDict
 		print " >>>> End of createZStateDict()"
 
 
@@ -326,8 +326,8 @@ class PersonalityOperations(object):
 			for every in each.keys():
 				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 4) if len(every)!=0 else 0
 		
-		print "StatewiseDict ----------------------------------------"	
-		print self.statewiseDict
+		# print "StatewiseDict ----------------------------------------"	
+		# print self.statewiseDict
 		print " >>>> End of crunchStateDict()"
 
 	'''
@@ -335,17 +335,18 @@ class PersonalityOperations(object):
 		Append flag to the already crunched statewiseDict
 	'''
 	def flagState_20(self):
-		test = self.statewiseDict
+		test = self.stateDict
 		state_count = {}	#dictonary that keep track of count of particpants belonging to a state
 		for k,v in test.iteritems():
-			st = k
+			st = v['state']
+			#print "state - ", st
 			if st not in state_count:
 				state_count[st] = 1
 			else:
 				state_count[st] = state_count[st] + 1
 
-		# for k,v  in state_count.iteritems():
-		# 	print "State is ",k ," and value is-", v
+		for k,v  in state_count.iteritems():
+			print "State is ",k ," and value is-", v
 
 		for k,v in self.statewiseDict.iteritems():
 			st = k
@@ -354,8 +355,8 @@ class PersonalityOperations(object):
 			else:
 				v['below'] = 0
 
-		# print "statewiseDict after adding below flag is ----"
-		# print self.statewiseDict
+		print "statewiseDict after adding below flag is ----"
+		print self.statewiseDict
 		print "End of flagState_20()"
 
 	'''
@@ -364,27 +365,128 @@ class PersonalityOperations(object):
 	def usJSON(self):
 		m = self.statewiseDict
 		# add the color range
-		# Openness
-		openlist=[]
-		for each in m:
-			do = {}
-			do['state'] = each
-			for every in m[each]:
-				do['openness'] = m[each]['O']
-				if 0 <= do['openness'] < 100:
-					do['fillKey'] = 'LOW'
-				elif 100 <= do['openness'] < 250:
-					do['fillKey'] = 'LOWMED'
-				elif 250 <= do['openness'] < 600:
-					do['fillKey'] = 'MED'
-				elif 601 <= do['openness'] < 700:
-					do['fillKey'] = 'HIGHMED'
-				else: #above 700
-					do['fillKey'] = 'HIGH'
-			openlist.append(do)
 
-		self.openString = str(openlist).replace("'", "\"")
+		# Openness
+		opendic={}
+		for k,v in m.iteritems():
+			opendic[k] = {}
+			opendic[k]['openness'] = round((v['O']+5)*10, 2)
+			if v['below'] == 1:
+				opendic[k]['fillKey'] = 'X'
+			else:
+				if 0 <= opendic[k]['openness'] < 30:
+					opendic[k]['fillKey'] = 'LOW'
+				elif 30 <= opendic[k]['openness'] < 37:
+					opendic[k]['fillKey'] = 'LOWMED'
+				elif 37 <= opendic[k]['openness'] < 45:
+					opendic[k]['fillKey'] = 'MED'
+				elif 45 <= opendic[k]['openness']< 55:
+					opendic[k]['fillKey']= 'HIGHMED'
+				elif opendic[k]['openness'] >= 55:
+					opendic[k]['fillKey']= 'HIGH'
+
+		self.openString = str(opendic).replace("'", "\"")
 		print "Openness JSON -------------", self.openString
+		file_o = open("open_data.json", "w")
+		file_o.write(self.openString)
+
+		# Concientiousness
+		concdic={}
+		for k,v in m.iteritems():
+			concdic[k] = {}
+			concdic[k]['conscientiousness'] = round((v['C']+5)*10, 2)
+			if v['below'] == 1:
+				concdic[k]['fillKey'] = 'X'
+			else:
+				if 0 <= concdic[k]['conscientiousness'] < 30:
+					concdic[k]['fillKey'] = 'LOW'
+				elif 30 <= concdic[k]['conscientiousness'] < 37:
+					concdic[k]['fillKey'] = 'LOWMED'
+				elif 37 <= concdic[k]['conscientiousness'] < 45:
+					concdic[k]['fillKey'] = 'MED'
+				elif 45 <= concdic[k]['conscientiousness']< 55:
+					concdic[k]['fillKey']= 'HIGHMED'
+				elif concdic[k]['conscientiousness'] >= 55:
+					concdic[k]['fillKey']= 'HIGH'
+
+		cString = ""
+		cString = str(concdic).replace("'", "\"")
+		print "Conscientiousness JSON -------------", cString
+		file_c = open("conc_data.json", "w")
+		file_c.write(cString)
+
+		# Extraversion
+		extradic={}
+		for k,v in m.iteritems():
+			extradic[k] = {}
+			extradic[k]['extraversion'] = round((v['O']+5)*10, 2)
+			if v['below'] ==1:
+				extradic[k]['fillKey'] = 'X'
+			else:
+				if 0 <= extradic[k]['extraversion'] < 30:
+					extradic[k]['fillKey'] = 'LOW'
+				elif 30 <= extradic[k]['extraversion'] < 37:
+					extradic[k]['fillKey'] = 'LOWMED'
+				elif 37 <= extradic[k]['extraversion'] < 45:
+					extradic[k]['fillKey'] = 'MED'
+				elif 45 <= extradic[k]['extraversion']< 55:
+					extradic[k]['fillKey']= 'HIGHMED'
+				elif extradic[k]['extraversion'] >= 55:
+					extradic[k]['fillKey']= 'HIGH'
+		eString =""			
+		eString = str(extradic).replace("'", "\"")
+		print "extraversion JSON -------------", eString
+		file_e = open("extra_data.json", "w")
+		file_e.write(eString)
+
+		# Agreeableness
+		agreedic={}
+		for k,v in m.iteritems():
+			agreedic[k] = {}
+			agreedic[k]['agreeableness'] = round((v['O']+5)*10, 2)
+			if v['below'] ==1:
+				agreedic[k]['fillKey'] = 'X'
+			else:
+				if 0 <= agreedic[k]['agreeableness'] < 30:
+					agreedic[k]['fillKey'] = 'LOW'
+				elif 30 <= agreedic[k]['agreeableness'] < 37:
+					agreedic[k]['fillKey'] = 'LOWMED'
+				elif 37 <= agreedic[k]['agreeableness'] < 45:
+					agreedic[k]['fillKey'] = 'MED'
+				elif 45 <= agreedic[k]['agreeableness']< 55:
+					agreedic[k]['fillKey']= 'HIGHMED'
+				elif agreedic[k]['agreeableness'] >= 55:
+					agreedic[k]['fillKey']= 'HIGH'
+		aString =""			
+		aString = str(agreedic).replace("'", "\"")
+		print "agreeableness JSON -------------", aString
+		file_a = open("agree_data.json", "w")
+		file_a.write(aString)
+
+		# Neuroticism
+		neurodic={}
+		for k,v in m.iteritems():
+			neurodic[k] = {}
+			neurodic[k]['neuroticism'] = round((v['O']+5)*10, 2)
+			if v['below'] ==1:
+				neurodic[k]['fillKey'] = 'X'
+			else:
+				if 0 <= neurodic[k]['neuroticism'] < 30:
+					neurodic[k]['fillKey'] = 'LOW'
+				elif 30 <= neurodic[k]['neuroticism'] < 37:
+					neurodic[k]['fillKey'] = 'LOWMED'
+				elif 37 <= neurodic[k]['neuroticism'] < 45:
+					neurodic[k]['fillKey'] = 'MED'
+				elif 45 <= neurodic[k]['neuroticism']< 55:
+					neurodic[k]['fillKey']= 'HIGHMED'
+				elif neurodic[k]['neuroticism'] >= 55:
+					neurodic[k]['fillKey']= 'HIGH'
+		nString =""			
+		nString = str(neurodic).replace("'", "\"")
+		print "neuroticism JSON -------------", nString
+		file_n = open("neuro_data.json", "w")
+		file_n.write(nString)
+
 
 		#convert the values to strings - no color information
 		for each in m:
@@ -418,9 +520,9 @@ class PersonalityOperations(object):
 	'''		
 	def writeToFile(self):
 		self.firstOutputFile.write(str(self.userDict))
-		# self.secondOutputFile.write(self.jsonString)
-		# self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
-		# self.fourthOuputFile.write(self.openString)
+		self.secondOutputFile.write(self.jsonString)
+		self.thirdOutputFile.write(str(self.amlist).replace("'", "\""))
+		#self.fourthOuputFile.write(self.openString)
 		# self.fifthOuputFile.write(str(self.stateDict).replace("'", "\""))	#data for linear regression
 
 	'''
@@ -446,7 +548,7 @@ if __name__== "__main__":
 	# Po.cleanDict()
 	Po.crunchStateDict()
 	Po.flagState_20()
-	# Po.usJSON()	#FOR us map
+	Po.usJSON()	#FOR us map
 	# Po.amchartJSON()	#For Amcharts
 	Po.writeToFile()
 else:
