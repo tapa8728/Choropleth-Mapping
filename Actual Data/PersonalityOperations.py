@@ -2,6 +2,10 @@ import operator
 import collections
 import csv
 
+#todo - 
+# 1. O,C,E,A,N jsons in usJSON in proper format
+# 2. Add function flagState_20() 
+
 class PersonalityOperations(object):
 	'''
 		Read 2 files Nested for loop to merge them into 1  
@@ -161,7 +165,10 @@ class PersonalityOperations(object):
 						self.userDict[gfgid]['gender'] = 0
 					else:
 						self.userDict[gfgid]['gender'] = 1
-					self.userDict[gfgid]['age'] = age 
+					if age == 99:
+						self.userDict[gfgid]['age'] = 80	##replace 99 with 80
+					else:
+						self.userDict[gfgid]['age'] = age 
 		#print "######### userDict", self.userDict
 		print "userDict generated"
 	
