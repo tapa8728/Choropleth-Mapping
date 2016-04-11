@@ -244,7 +244,7 @@ li.key {
                     }); //end of Datamap variable
                       
                   //draw a legend for this map
-                var colors = d3.scale.quantize()
+                /*var colors = d3.scale.quantize()
                   .range(["#F06292", "#E91E63", "#D81B60", "#AD1457", "#880E4F" ]);
                 var legend = d3.select('#legend_c')
                   .append('ul')
@@ -259,19 +259,18 @@ li.key {
                     .text(function(d) {
                         var r = colors.invertExtent(d);
                         return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });
-                /* map.legend({
-
-                  legendTitle : "Conscientiousness Personality Trait",
+                    });*/
+                 map.legend({
+                  //legendTitle : "Conscientiousness Personality Trait",
                   defaultFillName: "No data",
                   labels: {
-                    'LOW': "0-10",   
-                    'LOWMED': "11-20",   
-                    'MED' : "21-30",
-                    'HIGHMED' : "31-40",
-                    'HIGH' : "41-50"
+                    'LOW': "< 41.99 ",   
+                    'LOWMED': "42-45.99",   
+                    'MED' : "46-48.99",
+                    'HIGHMED' : "49-52.99",
+                    'HIGH' : "> 53"
                   },
-                });*/
+                });
         </script>
     </section>
 
@@ -322,34 +321,33 @@ li.key {
                     }); //end of Datamap variable
                       
                   //draw a legend for this map
-               var colors = d3.scale.quantize()
-                  .range(["#FFE082", "#FFCA28", "#FFB300", "#FF8F00", "#FF6F00" ]);
-                var legend = d3.select('#legend_e')
-                  .append('ul')
-                    .attr('class', 'list-inline');
+                   /*var colors = d3.scale.quantize()
+                      .range(["#FFE082", "#FFCA28", "#FFB300", "#FF8F00", "#FF6F00" ]);
+                    var legend = d3.select('#legend_e')
+                      .append('ul')
+                        .attr('class', 'list-inline');
 
-                var keys = legend.selectAll('li.key')
-                    .data(colors.range());
+                    var keys = legend.selectAll('li.key')
+                        .data(colors.range());
 
-                keys.enter().append('li')
-                    .attr('class', 'key')
-                    .style('border-top-color', String)
-                    .text(function(d) {
-                        var r = colors.invertExtent(d);
-                        return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });
-                 /*map.legend({
-
-                  legendTitle : "Extraversion Personality Trait",
+                    keys.enter().append('li')
+                        .attr('class', 'key')
+                        .style('border-top-color', String)
+                        .text(function(d) {
+                            var r = colors.invertExtent(d);
+                            return (r[0]*100+"-"+(r[0]*100 + 80));
+                        });*/
+                 map.legend({
+                  //legendTitle : "Extraversion Personality Trait",
                   defaultFillName: "No data",
                   labels: {
-                    'LOW': "0-10",   
-                    'LOWMED': "11-20",   
-                    'MED' : "21-30",
-                    'HIGHMED' : "31-40",
-                    'HIGH' : "41-50"
+                    'LOW': "< 41.99 ",   
+                    'LOWMED': "42-45.99",   
+                    'MED' : "46-48.99",
+                    'HIGHMED' : "49-52.99",
+                    'HIGH' : "> 53"
                   },
-                });*/
+                });
         </script>
     </section>
 
@@ -399,33 +397,33 @@ li.key {
                     }); //end of Datamap variable
                       
                   //draw a legend for this map
-                  var colors = d3.scale.quantize()
+                  /*var colors = d3.scale.quantize()
                   .range(["#EF9A9A", "#EF5350", "#FF1744", "#E53935", "#B71C1C" ]);
-                var legend = d3.select('#legend_a')
-                  .append('ul')
-                    .attr('class', 'list-inline');
+                  var legend = d3.select('#legend_a')
+                    .append('ul')
+                      .attr('class', 'list-inline');
 
-                var keys = legend.selectAll('li.key')
-                    .data(colors.range());
+                  var keys = legend.selectAll('li.key')
+                      .data(colors.range());
 
-                keys.enter().append('li')
-                    .attr('class', 'key')
-                    .style('border-top-color', String)
-                    .text(function(d) {
-                        var r = colors.invertExtent(d);
-                        return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });
-                 /*map.legend({
-                  legendTitle : "Agreeableness Personality Trait",
+                  keys.enter().append('li')
+                      .attr('class', 'key')
+                      .style('border-top-color', String)
+                      .text(function(d) {
+                          var r = colors.invertExtent(d);
+                          return (r[0]*100+"-"+(r[0]*100 + 80));
+                    });*/
+                 map.legend({
+                  //legendTitle : "Agreeableness Personality Trait",
                   defaultFillName: "No data",
                   labels: {
-                    'LOW': "0-10",   
-                    'LOWMED': "11-20",   
-                    'MED' : "21-30",
-                    'HIGHMED' : "31-40",
-                    'HIGH' : "41-50"
+                    'LOW': "< 41.99 ",   
+                    'LOWMED': "42-45.99",   
+                    'MED' : "46-48.99",
+                    'HIGHMED' : "49-52.99",
+                    'HIGH' : "> 53"
                   },
-                });*/
+                });
         </script>
     </section>
 
@@ -475,7 +473,7 @@ li.key {
                 }); //end of Datamap variable
                   
               //draw a legend for this map
-              var colors = d3.scale.quantize()
+              /*var colors = d3.scale.quantize()
                   .range(["#B39DDB", "#7E57C2", "#5E35B1", "#4527A0", "#311B92" ]);
                 var legend = d3.select('#legend_n')
                   .append('ul')
@@ -490,18 +488,18 @@ li.key {
                     .text(function(d) {
                         var r = colors.invertExtent(d);
                         return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });
-             /*map.legend({
-              legendTitle : "Neuroticism Personality Trait",
+                    });*/
+             map.legend({
+              //legendTitle : "Neuroticism Personality Trait",
               defaultFillName: "No data",
               labels: {
-                    'LOW': "0-10",   
-                    'LOWMED': "11-20",   
-                    'MED' : "21-30",
-                    'HIGHMED' : "31-40",
-                    'HIGH' : "41-50"
+                    'LOW': "< 41.99 ",   
+                    'LOWMED': "42-45.99",   
+                    'MED' : "46-48.99",
+                    'HIGHMED' : "49-52.99",
+                    'HIGH' : "> 53"
                   },
-            });*/
+            });
         </script>
     </section>
 
