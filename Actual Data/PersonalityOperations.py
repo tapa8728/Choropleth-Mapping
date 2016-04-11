@@ -1,10 +1,11 @@
 import operator
 import collections
 import csv
+import subprocess		#for executing R script from python file
 
 #todo - 
 # 1. O,C,E,A,N jsons in usJSON in proper format
-# 2. Add function flagState_20() - DONE
+
 class PersonalityOperations(object):
 	'''
 		Read 2 files Nested for loop to merge them into 1  
@@ -18,6 +19,7 @@ class PersonalityOperations(object):
 		self.genAgeData = None
 		self.userDict = {}	
 		self.stateDict = {}		#state, OCEAN
+		self.zStateDict ={}		#state, z-OCEAN 
 		self.statewiseDict ={}  #state:[OCEAN]
 		self.jsonString = None
 		self.openString = None	#to build the openness.json
@@ -32,6 +34,7 @@ class PersonalityOperations(object):
 		self.userData = open(fname1, "r")	
 		self.respData = open(fname2, "r")
 		self.genAgeData = open(fname3, "r")
+		print " >>>> End of readFile()"
 
 	'''
 		Create a new  file "user_dict.txt" that stores the nested dictionary with answers replaced with range (1 to 5)
@@ -43,6 +46,7 @@ class PersonalityOperations(object):
 		self.thirdOutputFile = open(fname3, "w")
 		self.fourthOuputFile = open(fname4, "w")
 		self.fifthOuputFile = open(fname5, "w")
+		print " >>>> End of writeFile()"
 
 	'''
 		Read the files into respective lists
@@ -51,6 +55,7 @@ class PersonalityOperations(object):
 		self.userLines = self.userData.readlines()
 		self.respLines = self.respData.readlines()
 		self.genAgeLines = self.genAgeData.readlines()
+		print " >>>> End of readintoList()"
 
 	'''
 		Close the opened files.
@@ -59,9 +64,10 @@ class PersonalityOperations(object):
 		userData.close()
 		respData.close()
 		genAgeData.close()
+		print " >>>> End of closeFile()"
 
 	'''
-		Function R(Reverse Scoring) implemented to compute the O,C,E,A,N formulae
+		Utility Function - R(Reverse Scoring) implemented to compute the O,C,E,A,N formulae
 	'''
 	def reverse(self,n):
 		rev = 0
@@ -148,8 +154,8 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			# if( gfgid == "261"):
-			#  	break
+			if( gfgid == "261"):
+			 	break
 
 		#Add gender,age data as well
 		for l in self.genAgeLines:
@@ -164,13 +170,13 @@ class PersonalityOperations(object):
 						self.userDict[gfgid]['gender'] = 0
 					else:
 						self.userDict[gfgid]['gender'] = 1
-					
+					#Replace the age of 99 with 80 (TBD)
 					if age == str(99):
 						self.userDict[gfgid]['age'] = str(80)	##replace 99 with 80
 					else:
 						self.userDict[gfgid]['age'] = age 
 		#print "######### userDict", self.userDict
-		print "userDict generated"
+		print " >>>> End of combineUserDataAndResponses()"
 	
 	'''	
 		Male=0, Female=1
@@ -201,51 +207,11 @@ class PersonalityOperations(object):
 			except:
 			    print 'I got another exception, but I should re-raise'
 			    raise
-
-		print "StateDict is --------------- ", self.stateDict
-		print "End of relevantDict()"
-
-	'''
-		Set a flag "below" to 1 if a particular state has < 20 participants
-		Append flag to stateDict
-	'''
-	def flagState_20(self):
-		test = self.stateDict
-		state_count = {}	#dictonary that keep track of count of particpants belonging to a state
-		for k,v in test.iteritems():
-			st = v['state']
-			if st not in state_count:
-				state_count[st] = 1
-			else:
-				state_count[st] = state_count[st] + 1
-
-		for k,v  in state_count.iteritems():
-			print "State is ",k ," and value is-", v
-
-		for k,v in self.stateDict.iteritems():
-			st = v['state']
-			if state_count[st] < 20:
-				v['below'] = 1
-			else:
-				v['below'] = 0
-
-		print "stateDict after adding below flag is ----"
-		print self.stateDict
-		print "End of flagState_20()"
+		#print "StateDict is --------------- ", self.stateDict
+		print " >>>> End of relevantDict()"
 
 	'''
-		Weed out all the users with a set corrupt flag
-	'''
-	def cleanDict(self):
-		cList = []
-		for k in self.userDict:
-			if self.userDict[k]['corrupt'] == 1:
-				cList.append(k)
-				
-		#print "List of corrupt gfgid is - ", cList	
-
-	'''
-		Convert stateDict into a .csv file
+		Convert stateDict into a .csv file for R script to process
 	'''
 	def csvforR(self):
 		# convert the stateDict.json file into a csv file - id, state, gender, age, O, C, E, A, N
@@ -254,7 +220,49 @@ class PersonalityOperations(object):
 		csvout.writerow(["id"] +["state"] + ["gender"] + ["age"] + ["O"] + ["C"] +["E"] + ["A"]+ ["N"])
 		for k, v in self.stateDict.iteritems():
 			csvout.writerow([k] + [v['state']] + [v['gender']] + [v['age']] + [v['O']] +[v['C']] + [v['E']] +[v['A']] + [v['N']])
- 		# Can we embed a R script here?
+ 		print " >>>> End of csvforR()"
+
+	'''
+		Call the linearReg.R script here
+	'''
+	def callRScript(self):
+		# Define command and arguments
+		command = 'Rscript'
+		path2script = '/home/tanvip/Desktop/Choropleth-Mapping/Actual Data/linearReg.R'
+		# Variable number of args in a list
+		args = []
+		# Build subprocess command
+		cmd = [command, path2script] + args
+		# check_output will run the command and store to result
+		x = subprocess.check_output(cmd, universal_newlines=True)
+		print('The value of x is -- ', x)
+		print " >>>> End of callRScript()"
+
+	'''
+		Read the zscore.csv file and convert to dictionary
+		O, C, E, A, N are the z-scored values
+		zStateDict = {'gfgid':{'state': 'MI', 'O':3, 'C':5, 'E':6, 'A':7, 'N':2'}}
+	'''
+	def createZStateDict(self):
+		zData = open("zscore.csv", "r")
+		print "Successfully read zscore.csv"
+		zLines = zData.readlines()
+		for line in zLines[1:]:
+			zList=line.split(",")
+			#78, "OR" , 1,40, 3.2, 4.11, 2.38, 4.67, 1.88, -1.01592200338132,0.450660347883958,-0.965335669598581,1.56545378887604,-1.53549226343548
+			gfgid, state = zList[0], zList[1]
+			z_o, z_c, z_e, z_a, z_n = zList[9], zList[10], zList[11], zList[12], zList[13].replace("\n", "")
+			self.zStateDict[gfgid] = {}
+			self.zStateDict[gfgid]['state'] = state
+			self.zStateDict[gfgid]['O'] = round(float(z_o), 4)
+			self.zStateDict[gfgid]['C'] = round(float(z_c), 4)
+			self.zStateDict[gfgid]['E'] = round(float(z_e), 4)
+			self.zStateDict[gfgid]['A'] = round(float(z_a), 4)
+			self.zStateDict[gfgid]['N'] = round(float(z_n), 4)
+
+		#print "zStateDict -----"
+		#print self.zStateDict
+		print " >>>> End of createZStateDict()"
 
 
 	'''
@@ -267,9 +275,8 @@ class PersonalityOperations(object):
 		list1=[]
 		list2=[]
 		list3=[]
-		for each in self.stateDict.values():
+		for each in self.zStateDict.values():
 			list1.append(each)
-
 		'''
 		for each in list1:
 			print each
@@ -290,7 +297,6 @@ class PersonalityOperations(object):
 			print each
 		exit()
 		'''
-
 		list3 = sorted(list2, key=operator.itemgetter(0, 1))
 		#list3 = sorted(list2, key=list[0])
 		'''
@@ -318,10 +324,39 @@ class PersonalityOperations(object):
 		# Compute average for each state
 		for i,each in enumerate(self.statewiseDict.values()):
 			for every in each.keys():
-				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 2) if len(every)!=0 else 0
+				each[every] = round((sum(each[every]) + 0.0) / len(each[every]), 4) if len(every)!=0 else 0
 		
 		print "StatewiseDict ----------------------------------------"	
 		print self.statewiseDict
+		print " >>>> End of crunchStateDict()"
+
+	'''
+		Set a flag "below" to 1 if a particular state has < 20 participants
+		Append flag to the already crunched statewiseDict
+	'''
+	def flagState_20(self):
+		test = self.statewiseDict
+		state_count = {}	#dictonary that keep track of count of particpants belonging to a state
+		for k,v in test.iteritems():
+			st = k
+			if st not in state_count:
+				state_count[st] = 1
+			else:
+				state_count[st] = state_count[st] + 1
+
+		# for k,v  in state_count.iteritems():
+		# 	print "State is ",k ," and value is-", v
+
+		for k,v in self.statewiseDict.iteritems():
+			st = k
+			if state_count[st] < 20:
+				v['below'] = 1
+			else:
+				v['below'] = 0
+
+		# print "statewiseDict after adding below flag is ----"
+		# print self.statewiseDict
+		print "End of flagState_20()"
 
 	'''
 		Convert to .json format for US MAP
@@ -388,6 +423,15 @@ class PersonalityOperations(object):
 		# self.fourthOuputFile.write(self.openString)
 		# self.fifthOuputFile.write(str(self.stateDict).replace("'", "\""))	#data for linear regression
 
+	'''
+		Utility Function - Weed out all the users with a set corrupt flag
+	'''
+	def cleanDict(self):
+		cList = []
+		for k in self.userDict:
+			if self.userDict[k]['corrupt'] == 1:
+				cList.append(k)
+		#print "List of corrupt gfgid is - ", cList	
 
 if __name__== "__main__":
 	Po = PersonalityOperations()
@@ -397,9 +441,11 @@ if __name__== "__main__":
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.csvforR()
-	Po.flagState_20()
+	Po.callRScript()
+	Po.createZStateDict()
 	# Po.cleanDict()
-	# Po.crunchStateDict()
+	Po.crunchStateDict()
+	Po.flagState_20()
 	# Po.usJSON()	#FOR us map
 	# Po.amchartJSON()	#For Amcharts
 	Po.writeToFile()
