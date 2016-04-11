@@ -149,7 +149,7 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			if( gfgid == "410"):
+			if( gfgid == "261"):
 			 	break
 
 		#Add gender,age data as well
@@ -208,8 +208,28 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-		#print "StateDict is --------------- ", self.stateDict
+		print "StateDict is --------------- ", self.stateDict
 		print "Finally end of relevantDict"
+
+	'''
+		Set a flag "below" to 1 if a particular state has < 20 participants
+		Append flag to stateDict
+	'''
+	def flagState_20(self):
+		test = self.stateDict
+		state_count = {}	#dictonary that keep track of count of particpants belonging to a state
+		for k,v in test.iteritems():
+			st = v['state']
+			if st not in state_count:
+				state_count[st] = 1
+			else:
+				state_count[st] = state_count[st] + 1
+
+		for k,v  in state_count.iteritems():
+			print "State is ",k ," and value is-", v
+
+
+
 
 	'''
 		Weed out all the users with a set corrupt flag
@@ -375,6 +395,7 @@ if __name__== "__main__":
 	Po.combineUserDataAndResponses()
 	Po.relevantDict()
 	Po.csvforR()
+	Po.flagState_20()
 	# Po.cleanDict()
 	# Po.crunchStateDict()
 	# Po.usJSON()	#FOR us map
