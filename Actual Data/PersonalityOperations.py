@@ -149,14 +149,19 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			# if( gfgid == "4129"):
-			#  	break
+			if( gfgid == "410"):
+			 	break
 
 		#Add gender,age data as well
 		for l in self.genAgeLines:
+			#print type(self.genAgeLines),type(l)
+			#exit()
 			lis = l.split(",")
 			#print "lis -------", lis
 			gfgid, gen, age, state = lis[0], lis[1], lis[2], lis[3].replace("\n", "")
+			#print self.userDict
+			#print age,type(age)
+			#exit()
 			if gfgid in self.userDict:
 				if gen =="" or state == "" or age == "":	#weed out inconsistent values
 					self.userDict[gfgid]['corrupt'] = 1 	#set that gfgid to corrupt as well coz no gender,age info wil be added for it 
@@ -165,8 +170,9 @@ class PersonalityOperations(object):
 						self.userDict[gfgid]['gender'] = 0
 					else:
 						self.userDict[gfgid]['gender'] = 1
-					if age == 99:
-						self.userDict[gfgid]['age'] = 80	##replace 99 with 80
+					
+					if age == str(99):
+						self.userDict[gfgid]['age'] = str(80)	##replace 99 with 80
 					else:
 						self.userDict[gfgid]['age'] = age 
 		#print "######### userDict", self.userDict
