@@ -154,8 +154,8 @@ class PersonalityOperations(object):
 			    print 'I got another exception, but I should re-raise'
 			    raise
 
-			# if( gfgid == "19"):
-			#  	break
+			if( gfgid == "19"):
+			 	break
 
 		#Add gender,age data as well
 		for l in self.genAgeLines:
@@ -347,6 +347,7 @@ class PersonalityOperations(object):
 
 		for k,v  in state_count.iteritems():
 			print "State is ",k ," and value is-", v
+			self.statewiseDict[k]['count'] = v
 
 		for k,v in self.statewiseDict.iteritems():
 			st = k
@@ -355,8 +356,8 @@ class PersonalityOperations(object):
 			else:
 				v['below'] = 0
 
-		# print "statewiseDict after adding below flag is ----"
-		# print self.statewiseDict
+		print "statewiseDict after adding below flag is ----"
+		print self.statewiseDict
 		print "End of flagState_20()"
 
 	'''
