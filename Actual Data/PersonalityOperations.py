@@ -378,8 +378,9 @@ class PersonalityOperations(object):
 		for k,v in m.iteritems():
 			opendic[k] = {}
 			opendic[k]['openness'] = round((v['O']*scale_sd)+scale_mean, 4)
+			opendic[k]['number'] = v['count']	#sample size
 			if v['below'] == 1:
-				opendic[k]['fillKey'] = 'X'
+				opendic[k]['fillKey'] = 'NA'
 			else:
 				if 0 <= opendic[k]['openness'] < low:
 					opendic[k]['fillKey'] = 'LOW'
@@ -402,8 +403,9 @@ class PersonalityOperations(object):
 		for k,v in m.iteritems():
 			concdic[k] = {}
 			concdic[k]['conscientiousness'] = round((v['C']*scale_sd)+scale_mean, 4)
+			concdic[k]['number'] = v['count']	#sample size
 			if v['below'] == 1:
-				concdic[k]['fillKey'] = 'X'
+				concdic[k]['fillKey'] = 'NA'
 			else:
 				if 0 <= concdic[k]['conscientiousness'] < low:
 					concdic[k]['fillKey'] = 'LOW'
@@ -427,8 +429,9 @@ class PersonalityOperations(object):
 		for k,v in m.iteritems():
 			extradic[k] = {}
 			extradic[k]['extraversion'] = round((v['E']*scale_sd)+scale_mean, 4)
+			extradic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
-				extradic[k]['fillKey'] = 'X'
+				extradic[k]['fillKey'] = 'NA'
 			else:
 				if 0 <= extradic[k]['extraversion'] < low:
 					extradic[k]['fillKey'] = 'LOW'
@@ -451,8 +454,9 @@ class PersonalityOperations(object):
 		for k,v in m.iteritems():
 			agreedic[k] = {}
 			agreedic[k]['agreeableness'] = round((v['A']*scale_sd)+scale_mean, 4)
+			agreedic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
-				agreedic[k]['fillKey'] = 'X'
+				agreedic[k]['fillKey'] = 'NA'
 			else:
 				if 0 <= agreedic[k]['agreeableness'] < low:
 					agreedic[k]['fillKey'] = 'LOW'
@@ -475,8 +479,9 @@ class PersonalityOperations(object):
 		for k,v in m.iteritems():
 			neurodic[k] = {}
 			neurodic[k]['neuroticism'] = round((v['N']*scale_sd)+scale_mean, 4)
+			neurodic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
-				neurodic[k]['fillKey'] = 'X'
+				neurodic[k]['fillKey'] = 'NA'
 			else:
 				if 0 <= neurodic[k]['neuroticism'] < low:
 					neurodic[k]['fillKey'] = 'LOW'
@@ -519,8 +524,7 @@ class PersonalityOperations(object):
 				d2['E'] = round((float(self.statewiseDict[each]['E'])*10) + 50, 4)
 				d2['A'] = round((float(self.statewiseDict[each]['A'])*10) + 50, 4)
 				d2['N'] = round((float(self.statewiseDict[each]['N'])*10) + 50, 4)
-				
-				
+					
 			self.amlist.append(d2)
 
 		print "Amcharts JSON ------------- ", str(self.amlist).replace("'", "\"")
