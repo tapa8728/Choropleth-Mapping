@@ -16,10 +16,8 @@ li.key {
 .datamaps-legend {
         position: absolute;
         width: 600px;
-        right: -200px;
+        
     }
-
-
 
 
 #conc, #open, #extra, #neuro, #agree {
@@ -28,5 +26,5 @@ li.key {
    }
 
 #open, #extra, #neuro{
-    background-color: #EEEEEE;
+    background-color: #EEEEE8;
 }
