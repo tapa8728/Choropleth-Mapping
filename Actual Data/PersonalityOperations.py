@@ -377,7 +377,7 @@ class PersonalityOperations(object):
 		opendic={}
 		for k,v in m.iteritems():
 			opendic[k] = {}
-			opendic[k]['openness'] = round((v['O']*scale_sd)+scale_mean, 4)
+			opendic[k]['openness'] = round((v['O']*scale_sd)+scale_mean, 1)
 			opendic[k]['number'] = v['count']	#sample size
 			if v['below'] == 1:
 				opendic[k]['fillKey'] = 'NA'
@@ -402,7 +402,7 @@ class PersonalityOperations(object):
 		concdic={}
 		for k,v in m.iteritems():
 			concdic[k] = {}
-			concdic[k]['conscientiousness'] = round((v['C']*scale_sd)+scale_mean, 4)
+			concdic[k]['conscientiousness'] = round((v['C']*scale_sd)+scale_mean, 1)
 			concdic[k]['number'] = v['count']	#sample size
 			if v['below'] == 1:
 				concdic[k]['fillKey'] = 'NA'
@@ -428,7 +428,7 @@ class PersonalityOperations(object):
 		extradic={}
 		for k,v in m.iteritems():
 			extradic[k] = {}
-			extradic[k]['extraversion'] = round((v['E']*scale_sd)+scale_mean, 4)
+			extradic[k]['extraversion'] = round((v['E']*scale_sd)+scale_mean, 1)
 			extradic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
 				extradic[k]['fillKey'] = 'NA'
@@ -453,7 +453,7 @@ class PersonalityOperations(object):
 		agreedic={}
 		for k,v in m.iteritems():
 			agreedic[k] = {}
-			agreedic[k]['agreeableness'] = round((v['A']*scale_sd)+scale_mean, 4)
+			agreedic[k]['agreeableness'] = round((v['A']*scale_sd)+scale_mean, 1)
 			agreedic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
 				agreedic[k]['fillKey'] = 'NA'
@@ -478,7 +478,7 @@ class PersonalityOperations(object):
 		neurodic={}
 		for k,v in m.iteritems():
 			neurodic[k] = {}
-			neurodic[k]['neuroticism'] = round((v['N']*scale_sd)+scale_mean, 4)
+			neurodic[k]['neuroticism'] = round((v['N']*scale_sd)+scale_mean, 1)
 			neurodic[k]['number'] = v['count']	#sample size
 			if v['below'] ==1:
 				neurodic[k]['fillKey'] = 'NA'
