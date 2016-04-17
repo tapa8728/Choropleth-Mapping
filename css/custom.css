@@ -1,0 +1,32 @@
+body {
+        /*padding-top: 50px;*/
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+
+li.key {
+    border-top-width: 22px;
+    border-top-style: solid;
+    font-size: 1.05em;
+    width: 10%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.datamaps-legend {
+        position: absolute;
+        width: 600px;
+        right: -200px;
+    }
+
+
+
+
+#conc, #open, #extra, #neuro, #agree {
+    
+   height: 100%;
+   }
+
+#open, #extra, #neuro{
+    background-color: #EEEEEE;
+}

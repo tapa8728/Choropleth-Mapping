@@ -2,68 +2,81 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
     <title>Personality US MAP</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
-    <style>
-    body {
-        padding-top: 50px;
-        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    }
-    #legend {
-    padding: 1.5em 0 0 1.5em;
-}
-
-li.key {
-    border-top-width: 22px;
-    border-top-style: solid;
-    font-size: 1.05em;
-    width: 8%;
-    padding-left: 0;
-    padding-right: 0;
-}
-    ./*datamaps-legend {
-            position: relative;
-            right: 400px;
-        }
-
-    #container1 {
-          position: relative;
-          left: 150px;
-        }*/
-
-    #conc, #open, #extra, #neuro, #agree {
-        padding: 20px;
-    }
-
-    #open, #extra, #neuro{
-        background-color: #EEEEEE;
-    }
-    
-
-    </style>
+    <link href="css/custom.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+    
+
+    <script src="https://code.jquery.com/jquery-1.9.0b1.min.js" integrity="sha256-oySIpOV91gBjQNQ6dzegyTYDoVDfkFRPmpCzGgS3DZI="   crossorigin="anonymous"></script>
     <!-- Map Generating Function -->
-    <script src="js/d3.v3.min.js"></script>
+    <script src="js/jquery.scrollify.js"></script>
     <script src="js/topojson.v1.min.js"></script>
     <script src="js/datamaps.usa.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js"></script>
+    <style type="text/css">
+
+    #conc, #open, #extra, #neuro, #agree {
+    	min-height: 100%;
+   }		
+
+
+
+    </style>
+    <script>
+    	function addLegend2(layer, data, options) {
+				    data = data || {};
+				    if ( !this.options.fills ) {
+				      return;
+				    }
+
+				    var html = '<ul class="list-inline">';
+				    var label = '';
+				    var arr = ["< 46",  "46-48", "48-50", "50-52", "> 52", "NA"]
+				    if ( data.legendTitle ) {
+				      html = '<h3>' + data.legendTitle + '</h3>' + html;
+				    }
+				    var i=0;
+				    for ( var fillKey in this.options.fills ) 
+				    {
+				    	if ( fillKey === 'defaultFill') 
+				    	{
+					        if (! data.defaultFillName ) 
+					        {
+					          continue;
+					        }
+				        	label = data.defaultFillName;
+				     	} 
+				      else 
+				      {
+				        if (data.labels && data.labels[fillKey]) 
+				        {
+				          	label = arr
+				        } 
+				        else 
+				        {
+				          label= arr[i];
+				        }
+				      }
+				      html += '<li class="key" style="border-top-color:' + this.options.fills[fillKey] + '">&nbsp;&nbsp;&nbsp;<b>' + label + '</b></li>' 
+				      i++;
+				    } //end of for
+				    html += '</ul>';
+
+				    var hoverover = d3.select( this.options.element ).append('div')
+				      .attr('class', 'datamaps-legend')
+				      .html(html);
+				  }
+
+    </script>
 </head>
 
 <body>
@@ -106,27 +119,23 @@ li.key {
         <!-- /.container -->
     </nav>
 
-    <!-- Header -->
-    <section id="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1><b>USA Personality Distribution</b></h1>
-                    <h4>Hover on map for state-wise information</h4>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Open Content -->
-    <section id = "open" >
+    <section id = "open">
         <div class="container">
             <div class="row">
                 <div>
-                  <center><h2>Openness Personality Trait</h2></center>
-                  <hr><br>
-                  <center><div id="legend_o"></div></center>
-                  <div id="container1" class="center-block" style="height: 450px; width: 960px"></div> 
+               	<div class="row">
+                	<div class="col-lg-12 text-center">
+                		<br><br><br>
+                	    <h1><b>USA Personality Distribution</b></h1>
+                	    <h4>Hover on map for state-wise information</h4>
+                	</div>
+            	</div>
+				<center><h2>Openness Personality Trait</h2></center>
+				<hr><br>
+				<center><div id="legend_o"></div></center>
+				<div id="container1" class="center-block" style="height: 450px; width: 960px"></div> 
                     
                 </div>
             </div>
@@ -134,72 +143,45 @@ li.key {
         </div>
         <!-- /.container -->
         <script>
-                    var map = new Datamap({
-                      scope: 'usa',
-                      element: document.getElementById('container1'),
-                      responsive: true,
-                      geographyConfig: {
-                          popupTemplate: function(geo, data) {
+                var map = new Datamap({
+                  scope: 'usa',
+                  element: document.getElementById('container1'),
+                  responsive: true,
+                  geographyConfig: {
+                      popupTemplate: function(geo, data) {
 
-                          return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
-                        },
-                        highlightFillColor: '#ffcb05',
-                        highlightOnHover: true,
-                        borderColor: '#3E2723',
-                        borderWidth: 1.2,
-                        highlightBorderColor: '#00417f',
-                        highlightBorderWidth: 2,
-                        highlightBorderOpacity: 1
-                      },
-                      dataUrl: 'open_data.json',
-                      dataType: 'json',
-                      data: {},
-                      fills: {  //Shades of Cyan
-                        'LOW': '#7f93a5',   
-                        'LOWMED': '#4c6781',   
-                        'MED' : '#32526f',
-                        'HIGHMED' : '#193c5d',
-                        'HIGH' : '#00274c',
-                        'NA': 'grey'
-                        //defaultFill: 'grey'
-                      }
-                    }); //end of Datamap variable
-                    map.labels();  
-                  //draw a legend for this map
-/*
-                  var colors = d3.scale.quantize()
-                  .range(["#7f93a5", "#4c6781", "#32526f", "#193c5d", "#00274c" ]);
-                var legend = d3.select('#legend_o')
-                  .append('ul')
-                    .attr('class', 'list-inline');
-
-                var keys = legend.selectAll('li.key')
-                    .data(colors.range());
-
-                keys.enter().append('li')
-                    .attr('class', 'key')
-                    .style('border-top-color', String)
-                    .text(function(d) {
-                        var r = colors.invertExtent(d);
-                        return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });*/
-
-                 map.legend({
-                  //legendTitle : "Openness Personality Trait",
-                  defaultFillName: "No Data",
-                  labels: {
-                    'LOW': "< 46 ",   
-                    'LOWMED': "46-48",   
-                    'MED' : "48-50",
-                    'HIGHMED' : "50-52",
-                    'HIGH' : "> 52"
+                      return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                    },
+                    highlightFillColor: '#ffcb05',
+                    highlightOnHover: true,
+                    borderColor: '#3E2723',
+                    borderWidth: 1.2,
+                    highlightBorderColor: '#00417f',
+                    highlightBorderWidth: 2,
+                    highlightBorderOpacity: 1
                   },
-                }); 
+                  dataUrl: 'open_data.json',
+                  dataType: 'json',
+                  data: {},
+                  fills: {  //Shades of Cyan
+                    'LOW': '#7f93a5',   
+                    'LOWMED': '#4c6781',   
+                    'MED' : '#32526f',
+                    'HIGHMED' : '#193c5d',
+                    'HIGH' : '#00274c',
+                    'NA': 'grey'
+                    //defaultFill: 'grey'
+                  }
+                }); //end of Datamap variable
+                map.labels();  
+				// Customized legend
+              	map.addPlugin("mylegend", addLegend2);
+			    map.mylegend({legendTitle: ""})
         </script>
     </section>
     
     <!-- Conc Content -->
-    <section id = "conc" >
+    <section id = "conc">
         <div class="container">
             <div class="row">
                 <div>
@@ -244,40 +226,16 @@ li.key {
                         //defaultFill: 'grey'
                       }
                     }); //end of Datamap variable
-                      map.labels();  
-                  //draw a legend for this map
-                /*var colors = d3.scale.quantize()
-                  .range(["#F06292", "#E91E63", "#D81B60", "#AD1457", "#880E4F" ]);
-                var legend = d3.select('#legend_c')
-                  .append('ul')
-                    .attr('class', 'list-inline');
-
-                var keys = legend.selectAll('li.key')
-                    .data(colors.range());
-
-                keys.enter().append('li')
-                    .attr('class', 'key')
-                    .style('border-top-color', String)
-                    .text(function(d) {
-                        var r = colors.invertExtent(d);
-                        return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });*/
-                 map.legend({
-                  //legendTitle : "Conscientiousness Personality Trait",
-                  defaultFillName: "No data",
-                  labels: {
-                    'LOW': "< 46 ",   
-                    'LOWMED': "46-48",   
-                    'MED' : "48-50",
-                    'HIGHMED' : "50-52",
-                    'HIGH' : "> 52"
-                  },
-                });
+                    map.labels();  
+					// Customized legend
+                  	map.addPlugin("mylegend", addLegend2);
+				    map.mylegend({legendTitle: ""})
+                  
         </script>
     </section>
 
     <!-- Extra Content -->
-    <section id = "extra" >
+    <section id = "extra">
         <div class="container">
             <div class="row">
                 <div>
@@ -320,36 +278,12 @@ li.key {
                         'NA': 'grey'
                         //defaultFill: 'grey'
                       }
+                    
                     }); //end of Datamap variable
                     map.labels();    
-                  //draw a legend for this map
-                   /*var colors = d3.scale.quantize()
-                      .range(["#FFE082", "#FFCA28", "#FFB300", "#FF8F00", "#FF6F00" ]);
-                    var legend = d3.select('#legend_e')
-                      .append('ul')
-                        .attr('class', 'list-inline');
-
-                    var keys = legend.selectAll('li.key')
-                        .data(colors.range());
-
-                    keys.enter().append('li')
-                        .attr('class', 'key')
-                        .style('border-top-color', String)
-                        .text(function(d) {
-                            var r = colors.invertExtent(d);
-                            return (r[0]*100+"-"+(r[0]*100 + 80));
-                        });*/
-                 map.legend({
-                  //legendTitle : "Extraversion Personality Trait",
-                  defaultFillName: "No data",
-                  labels: {
-                    'LOW': "< 46 ",   
-                    'LOWMED': "46-48",   
-                    'MED' : "48-50",
-                    'HIGHMED' : "50-52",
-                    'HIGH' : "> 52"
-                  },
-                });
+                  	// Customized legend
+                  	map.addPlugin("mylegend", addLegend2);
+				    map.mylegend({legendTitle: ""})
         </script>
     </section>
 
@@ -397,35 +331,10 @@ li.key {
                         'NA': 'grey'
                     }
                     }); //end of Datamap variable
-                      map.labels();  
-                  //draw a legend for this map
-                  var colors = d3.scale.quantize()
-                  .range(["#EF9A9A", "#EF5350", "#FF1744", "#E53935", "#B71C1C" ]);
-                  var legend = d3.select('#legend_a')
-                    .append('ul')
-                      .attr('class', 'list-inline');
-
-                  var keys = legend.selectAll('li.key')
-                      .data(colors.range());
-
-                  keys.enter().append('li')
-                      .attr('class', 'key')
-                      .style('border-top-color', String)
-                      .text(function(d) {
-                          var r = colors.invertExtent(d);
-                          return ((10*r[0])+46);
-                    });
-                 map.legend({
-                  //legendTitle : "Agreeableness Personality Trait",
-                  defaultFillName: "No data",
-                  labels: {
-                    'LOW': "< 46 ",   
-                    'LOWMED': "46-48",   
-                    'MED' : "48-50",
-                    'HIGHMED' : "50-52",
-                    'HIGH' : "> 52"
-                  },
-                });
+                    map.labels();  
+					// Customized legend
+                  	map.addPlugin("mylegend", addLegend2);
+				    map.mylegend({legendTitle: ""})
         </script>
     </section>
 
@@ -473,41 +382,12 @@ li.key {
                         //defaultFill: 'grey'
                     }
                 }); //end of Datamap variable
-                map.labels();
-              //draw a legend for this map
-              /*var colors = d3.scale.quantize()
-                  .range(["#B39DDB", "#7E57C2", "#5E35B1", "#4527A0", "#311B92" ]);
-                var legend = d3.select('#legend_n')
-                  .append('ul')
-                    .attr('class', 'list-inline');
-
-                var keys = legend.selectAll('li.key')
-                    .data(colors.range());
-
-                keys.enter().append('li')
-                    .attr('class', 'key')
-                    .style('border-top-color', String)
-                    .text(function(d) {
-                        var r = colors.invertExtent(d);
-                        return (r[0]*100+"-"+(r[0]*100 + 80));
-                    });*/
-             map.legend({
-              //legendTitle : "Neuroticism Personality Trait",
-              defaultFillName: "No data",
-              labels: {
-                    'LOW': "< 46 ",   
-                    'LOWMED': "46-48",   
-                    'MED' : "48-50",
-                    'HIGHMED' : "50-52",
-                    'HIGH' : "> 52"
-                  },
-            });
+                map.labels();  
+				// Customized legend
+              	map.addPlugin("mylegend", addLegend2);
+			    map.mylegend({legendTitle: ""})
         </script>
     </section>
-
-
-    <!-- jQuery Version 1.11.1 -->
-    <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
