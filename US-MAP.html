@@ -24,9 +24,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js"></script>
     <style type="text/css">
 
-    #conc, #open, #extra, #neuro, #agree {
-    	min-height: 100%;
-   }		
+    section {
+		  width: 100%;
+		  padding: 0 7%;
+		  display: table;
+		  margin: 0;
+		  max-width: none;
+		  height: 100vh;	
+		}
+	#conc, #extra, #neuro, #open, #agree{
+		height: 100vh;
+	}
 
 
 
@@ -75,7 +83,6 @@
 				      .attr('class', 'datamaps-legend')
 				      .html(html);
 				  }
-
     </script>
 </head>
 
@@ -185,6 +192,7 @@
         <div class="container">
             <div class="row">
                 <div>
+                	<br><br><br>
                     <center><h2>Conscientiousness Personality Trait </h></center>
                     <hr><br>
                     <center><div id="legend_c"></div></center>
@@ -239,6 +247,7 @@
         <div class="container">
             <div class="row">
                 <div>
+                	<br><br><br>
                     <center><h2>Extraversion Personality Trait </h></center>
                     <hr><br>
                     <center><div id="legend_e"></div></center>
@@ -292,10 +301,12 @@
         <div class="container">
             <div class="row">
                 <div>
+                	<br><br><br>
                     <center><h2>Agreeableness Personality Trait </h></center>
                     <hr><br>
                     <center><div id="legend_a"></div></center>
                     <div id="container4" class="center-block" style="height: 450px; width: 960px"></div> 
+                    
                 </div>
             </div>
             <!-- /.row -->
@@ -343,6 +354,7 @@
         <div class="container">
             <div class="row">
                 <div>
+                	<br><br><br>
                     <center><h2>Neuroticism Personality Trait </h></center>
                     <hr><br>
                     <center><div id="legend_n"></div></center>
