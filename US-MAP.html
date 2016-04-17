@@ -140,7 +140,8 @@ li.key {
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+"</div>";
+
+                          return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#ffcb05',
                         highlightOnHover: true,
@@ -220,7 +221,7 @@ li.key {
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.conscientiousness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.conscientiousness+"</div>";
+                          return data && data.conscientiousness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.conscientiousness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF9800',
                         highlightOnHover: true,
@@ -297,7 +298,7 @@ li.key {
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.extraversion && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.extraversion+"</div>";
+                          return data && data.extraversion && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.extraversion+" | <strong> Number of observations: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF5722',
                         highlightOnHover: true,
@@ -374,7 +375,7 @@ li.key {
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.agreeableness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.agreeableness+"</div>";
+                          return data && data.agreeableness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.agreeableness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF9800',
                         highlightOnHover: true,
@@ -449,7 +450,7 @@ li.key {
                   responsive: true,
                   geographyConfig: {
                       popupTemplate: function(geo, data) {
-                      return data && data.neuroticism && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.neuroticism+"</div>";
+                      return data && data.neuroticism && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.neuroticism+" | <strong> Number of observations: </strong>"+data.number+"</div>";
                     },
                     highlightFillColor: '#FF9800',
                     highlightOnHover: true,
