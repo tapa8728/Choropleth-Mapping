@@ -159,7 +159,7 @@
                   geographyConfig: {
                       popupTemplate: function(geo, data) {
 
-                      return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                      return data && data.openness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.openness+" | <strong> Number of individuals: </strong>"+data.number+"</div>";
                     },
                     highlightFillColor: '#ffcb05',
                     highlightOnHover: true,
@@ -229,7 +229,7 @@
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.conscientiousness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.conscientiousness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                          return data && data.conscientiousness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.conscientiousness+" | <strong> Number of individuals: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF9800',
                         highlightOnHover: true,
@@ -299,7 +299,7 @@
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.extraversion && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.extraversion+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                          return data && data.extraversion && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.extraversion+" | <strong> Number of individuals: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF5722',
                         highlightOnHover: true,
@@ -369,7 +369,7 @@
                       responsive: true,
                       geographyConfig: {
                           popupTemplate: function(geo, data) {
-                          return data && data.agreeableness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.agreeableness+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                          return data && data.agreeableness && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.agreeableness+" | <strong> Number of individuals: </strong>"+data.number+"</div>";
                         },
                         highlightFillColor: '#FF9800',
                         highlightOnHover: true,
@@ -418,7 +418,7 @@
             <div class="row">
                 <div>
                 	<br><br><br>
-                    <center><h2>Personality Measure of Neuroticism</h></center>
+                    <center><h2>PerNeuroticism</h></center>
                     <hr><br>
                     <center><div id="legend_n"></div></center>
                     <div id="container5" class="center-block" style="height: 50%; width: 90%"><h4>These values follow a t-score distribution with mean of 50 and standard deviation of 10.</h4>
@@ -436,7 +436,7 @@
                   responsive: true,
                   geographyConfig: {
                       popupTemplate: function(geo, data) {
-                      return data && data.neuroticism && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.neuroticism+" | <strong> Number of observations: </strong>"+data.number+"</div>";
+                      return data && data.neuroticism && "<div class='hoverinfo'><strong>"+geo.properties.name+"</strong> : "+data.neuroticism+" | <strong> Number of individuals: </strong>"+data.number+"</div>";
                     },
                     highlightFillColor: '#FF9800',
                     highlightOnHover: true,
